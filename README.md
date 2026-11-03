@@ -2,7 +2,7 @@
 
 Takuma Namisaki のポートフォリオサイトです。
 
-https://nekomanma91823.github.io
+https://namisakitakuma.github.io
 
 ## 掲載内容
 

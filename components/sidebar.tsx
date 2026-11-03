@@ -80,12 +80,12 @@ export function Sidebar({ className }: { className?: string }) {
             <ExternalLink className="w-4 h-4 mr-2" /> {t.cmiruProfile}
           </a>
           <a
-            href="https://github.com/nekomanma91823"
+            href="https://github.com/namisakiTakuma"
             target="_blank"
             rel="noreferrer"
             className="flex items-center hover:text-blue-600 transition-colors w-fit"
           >
-            <Github className="w-4 h-4 mr-2" /> GitHub (@nekomanma91823)
+            <Github className="w-4 h-4 mr-2" /> GitHub (@namisakiTakuma)
           </a>
           <EmailContact {...contactEmail} labels={t.email} />
         </div>
