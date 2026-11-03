@@ -17,6 +17,8 @@ export interface ProjectItem {
   result: string;
   learning: string;
   url?: string;
+  // 配っているプロダクトなら、data/apps.ts の slug。詳細ページに紹介ページ（/apps/<slug>/）へのリンクが出る
+  app?: string;
   status?: "ongoing";
 }
 
@@ -138,6 +140,7 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       learning:
         "同期は、ふだんは目立たないが、間違えると大事なメモが消える。どちらを残すか、消したことをどう伝えるかを先に決め、負けたほうを必ず残すようにしたことで、安心して毎日使える道具になると学んだ。",
       url: "https://github.com/namisakiTakuma/memo-sync",
+      app: "chocomemo",
       status: "ongoing",
     },
     {
@@ -282,6 +285,7 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       learning:
         "Sync stays invisible most of the time, but one mistake can erase an important note. Deciding up front which version to keep and how to pass on deletions, and always keeping the losing version, is what makes a tool safe to use every day.",
       url: "https://github.com/namisakiTakuma/memo-sync",
+      app: "chocomemo",
       status: "ongoing",
     },
     {
