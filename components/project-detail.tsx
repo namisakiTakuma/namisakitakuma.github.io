@@ -67,16 +67,29 @@ export function ProjectDetail({ id }: { id: string }) {
         {project.highlight && (
           <ProjectHighlight text={project.highlight} className="text-base" />
         )}
-        {project.url && (
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-1 text-sm text-neutral-600 hover:text-neutral-900 underline-offset-4 hover:underline"
-          >
-            {project.url.replace(/^https?:\/\//, "")}
-            <ExternalLink className="h-3.5 w-3.5" />
-          </a>
+        {(project.app || project.url) && (
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            {project.app && (
+              <Link
+                href={`/apps/${project.app}`}
+                className="inline-flex w-fit items-center gap-1 text-sm font-medium text-neutral-700 hover:text-neutral-900 underline-offset-4 hover:underline"
+              >
+                {t.projectAppPage}
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            )}
+            {project.url && (
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-fit items-center gap-1 text-sm text-neutral-600 hover:text-neutral-900 underline-offset-4 hover:underline"
+              >
+                {project.url.replace(/^https?:\/\//, "")}
+                <ExternalLink className="h-3.5 w-3.5" />
+              </a>
+            )}
+          </div>
         )}
       </header>
 

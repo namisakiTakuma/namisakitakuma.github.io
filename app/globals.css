@@ -3,6 +3,10 @@
 @theme {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* ちょこメモ（app/apps/chocomemo）の緑。#0F9D76 は白の上の文字には薄すぎる（3.4:1）ので、線や飾りだけに使い、
+     文字とボタンには濃い ink（背景の zinc-50 の上で 5.5:1）を使う */
+  --color-chocomemo: #0F9D76;
+  --color-chocomemo-ink: #0A7458;
 }
 
 @layer base {
