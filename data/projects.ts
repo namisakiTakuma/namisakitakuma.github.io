@@ -118,25 +118,26 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
     },
     {
       id: "memo-sync",
-      title: "メモシンク（Chrome拡張機能）",
+      title: "ちょこメモ（Chrome拡張機能）",
       category: "個人開発 / ブラウザ拡張 / 生産性",
       summary:
         "すぐ書けて、複数のPCに同期できる、日本語のシンプルなメモのChrome拡張機能。",
       image: {
         src: "/images/projects/memo-sync.webp",
-        alt: "メモシンクのアイコンと、チェックリストと表を書いたメモの画面",
+        alt: "ちょこメモのアイコンと、チェックリストと表を書いたメモの画面",
       },
-      tags: ["JavaScript", "Chrome拡張機能", "Manifest V3", "Google Drive API"],
+      tags: ["JavaScript", "Chrome拡張機能", "Manifest V3", "CodeMirror", "Google Drive API"],
       originKind: "trigger",
       origin:
         "研究でも仕事でも、ちょっとしたことをすぐ書き留めたい場面が多い。けれど、使っていたメモの拡張機能は、日本語での使いやすさや、複数のPCでの同期に物足りなさがあった。自分が毎日使う道具として、開いてすぐ書けて、どのPCでも同じメモが見られるものを作ることにした。",
       role: "企画から設計・実装・テスト、ストアへの公開の準備まで、1人で担当した。",
       implementation:
-        "外部のライブラリを使わず、JavaScriptとChromeの拡張機能の仕組み（Manifest V3）だけで作った。同期は、Chromeの同期機能か、Googleドライブのアプリ専用の見えない場所から選べる。メモは番号ではなく固定のIDで扱い、メモごとに新しいほうを採用する。両方のPCで書き換わっていたときは、負けたほうをバックアップに取って知らせ、消えたことも印を残して伝える。Markdownの表示、すべてのメモからの検索と置換、画像の貼り付けと印付け、コーディングAIにそのまま渡せるコピーも備えた。パスワードやAPIキーらしい文字は、PCの中だけで見つけて知らせる。",
+        "JavaScriptとChromeの拡張機能の仕組み（Manifest V3）で作り、外部のライブラリは編集欄のCodeMirrorだけにした。同期は、Chromeの同期機能か、Googleドライブのアプリ専用の見えない場所から選べる。メモは番号ではなく固定のIDで扱い、メモごとに新しいほうを採用する。両方のPCで書き換わっていたときは、負けたほうをバックアップに取って知らせ、消えたことも印を残して伝える。書式を付けたまま書けるMarkdown、すべてのメモからの検索と置換、画像の貼り付けと印付け、コーディングAIにそのまま渡せるコピーも備えた。パスワードやAPIキーらしい文字は、PCの中だけで見つけて知らせる。",
       result:
         "メモは利用者のPCとGoogleアカウントの中だけに置き、開発者のサーバー・利用状況の記録・広告のない形にした。同期の動きを自動テストで確かめられるようにし、Chromeウェブストアでの公開を準備している。",
       learning:
         "同期は、ふだんは目立たないが、間違えると大事なメモが消える。どちらを残すか、消したことをどう伝えるかを先に決め、負けたほうを必ず残すようにしたことで、安心して毎日使える道具になると学んだ。",
+      url: "https://github.com/namisakiTakuma/memo-sync",
       status: "ongoing",
     },
     {
@@ -261,25 +262,26 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
     },
     {
       id: "memo-sync",
-      title: "Memo Sync (Chrome Extension)",
+      title: "Choco Memo (Chrome Extension)",
       category: "Personal Project / Browser Extension / Productivity",
       summary:
         "A simple Japanese-friendly note-taking Chrome extension that opens instantly and syncs across PCs.",
       image: {
         src: "/images/projects/memo-sync.webp",
-        alt: "The Memo Sync icon and a note with a checklist and a table",
+        alt: "The Choco Memo icon and a note with a checklist and a table",
       },
-      tags: ["JavaScript", "Chrome Extension", "Manifest V3", "Google Drive API"],
+      tags: ["JavaScript", "Chrome Extension", "Manifest V3", "CodeMirror", "Google Drive API"],
       originKind: "trigger",
       origin:
         "In both research and work, I often want to jot something down right away. The note extensions I used fell short on ease of use in Japanese and on syncing across several PCs. So I decided to build the tool I use every day: one that is ready to write in the moment it opens and shows the same notes on every PC.",
       role: "Handled everything on my own, from planning and design to implementation, testing, and preparing the store release.",
       implementation:
-        "Built with plain JavaScript and the Chrome extension platform (Manifest V3), without external libraries. Sync runs through either Chrome sync or a hidden app-only folder in Google Drive. Notes are tracked by fixed IDs rather than tab numbers, and the newer version of each note wins. When a note changed on both PCs, the losing version is backed up and the user is told, and deletions are passed on as markers. It also has a Markdown view, search and replace across all notes, image pasting with annotations, and a copy button that hands everything to a coding AI as is. Text that looks like a password or API key is detected on the PC only.",
+        "Built with plain JavaScript and the Chrome extension platform (Manifest V3); the only external library is CodeMirror for the editor. Sync runs through either Chrome sync or a hidden app-only folder in Google Drive. Notes are tracked by fixed IDs rather than tab numbers, and the newer version of each note wins. When a note changed on both PCs, the losing version is backed up and the user is told, and deletions are passed on as markers. It also has Markdown that stays formatted while you write, search and replace across all notes, image pasting with annotations, and a copy button that hands everything to a coding AI as is. Text that looks like a password or API key is detected on the PC only.",
       result:
         "Notes stay only on the user's PC and in their Google account, with no developer server, usage tracking, or ads. The sync behavior is covered by automated tests, and the Chrome Web Store release is in preparation.",
       learning:
         "Sync stays invisible most of the time, but one mistake can erase an important note. Deciding up front which version to keep and how to pass on deletions, and always keeping the losing version, is what makes a tool safe to use every day.",
+      url: "https://github.com/namisakiTakuma/memo-sync",
       status: "ongoing",
     },
     {
