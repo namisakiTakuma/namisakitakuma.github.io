@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import { EmailLink } from "@/components/email-link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { appsContactEmail, findApp } from "@/data/apps";
 
 // ちょこメモの紹介ページ。Chrome ウェブストアの掲載ページと Google の OAuth 同意画面に、この URL を登録する。
@@ -121,23 +120,19 @@ export default function ChocomemoPage() {
         <p className="text-[15px] leading-relaxed text-neutral-700">
           設定画面で、次の 2 つから選びます。すべての PC で同じ方式を選んでください。
         </p>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="divide-y divide-neutral-200 border-y border-neutral-200">
           {syncMethods.map((method) => (
-            <Card key={method.name} className="border-t-4 border-t-chocomemo">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base">{method.name}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <dl className="grid grid-cols-[3rem_1fr] gap-x-3 gap-y-2 text-sm">
-                  {method.rows.map(([label, value]) => (
-                    <div key={label} className="contents">
-                      <dt className="text-neutral-500">{label}</dt>
-                      <dd className="text-neutral-800">{value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </CardContent>
-            </Card>
+            <div key={method.name} className="space-y-2 py-4">
+              <h3 className="text-[15px] font-semibold text-neutral-900">{method.name}</h3>
+              <dl className="grid grid-cols-[3rem_1fr] items-baseline gap-x-3 gap-y-1.5 pl-4">
+                {method.rows.map(([label, value]) => (
+                  <div key={label} className="contents">
+                    <dt className="text-sm leading-relaxed text-neutral-500">{label}</dt>
+                    <dd className="text-[15px] leading-relaxed text-neutral-700">{value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
           ))}
         </div>
         <p className="text-[15px] leading-relaxed text-neutral-700">
