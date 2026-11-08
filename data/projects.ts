@@ -33,47 +33,6 @@ export type Locale = "ja" | "en";
 export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
   ja: [
     {
-      // URL を変えないよう、id は SQL アプリだったころのまま
-      id: "sql-rag-agent",
-      title: "業務ナレッジRAG",
-      category: "業務効率化 / ナレッジマネジメント / AI活用",
-      summary:
-        "チームの業務の知識を1か所に集めて、誰でも探して使えるようにするナレッジ基盤。確かめ済みのSQLも、その場で実行できる。",
-      tags: ["Next.js", "FastAPI", "PostgreSQL", "AWS", "RAG"],
-      originKind: "problem",
-      origin:
-        "所属する大手予備校の過去問データ整備チームは、アルバイトが中心で人の入れ替わりが多く、例外的な業務の判断や失敗の経験はベテランの頭の中にだけ残っていた。手順を書いた文書も何か所にも散らばり、古い手順が残ったり、直し忘れが出たりしていた。",
-      features: [
-        {
-          label: "書く",
-          text: "業務の知識を「部品・業務手順・QA・SQL・備忘録・挑戦/失敗/振り返り」の6種類に分けて残す。失敗だけを集めると責められる記録に見えて書きにくくなるため、挑戦も一緒に残せるようにした。",
-        },
-        {
-          label: "探す・聞く",
-          text: "AIが意味で探し、根拠を示して答える。知識の下書きもAIが作る。",
-        },
-        {
-          label: "SQLを実行する",
-          text: "確かめ済みのSQLを、その場で実行できる。",
-        },
-      ],
-      techPoints: [
-        {
-          label: "部品で直し忘れをなくす",
-          text: "業務手順とQAは、部品を組み合わせて作る。部品を1か所直せば、それを使う手順とQAがすべて新しくなるので、直し忘れが起きない。",
-        },
-        {
-          label: "古い知識を残さない",
-          text: "登録した知識は、機械のチェックと管理者の承認を経て公開する。公開した後も、読んだ人からの「古い・違う」の知らせや見直しの期限で、担当者に戻る。",
-        },
-      ],
-      role:
-        "チームの統括者として、まずAIが日本語の質問からSQLを作るアプリを発案した。試作を作って社員への定例報告の場で提案し、開発から導入研修までを主導した。そこから、SQLだけでなく業務の手順やよく聞かれることの答えまで残せるナレッジ基盤へと広げ、知識の種類、担当、見直しの決まりを設計した。",
-      result:
-        "最初に作ったSQLアプリでは、Excelでは扱えない規模のデータも処理できるようになり、マスタ業務の工数を減らせた。ナレッジ基盤（RAG）は作り終え、書く、確かめる、承認する、探す、SQLを実行するといった基本の流れは、すでに本番で動いている。AIによる検索と回答を含めた本格的な運用は、これから始める。",
-      status: "ongoing",
-    },
-    {
       id: "picotouch",
       title: "アニマル ピコタッチ（NFCボードゲーム）",
       category: "新規事業 / 企画開発 / エンタメ",
@@ -327,46 +286,6 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
     },
   ],
   en: [
-    {
-      id: "sql-rag-agent",
-      title: "Team Knowledge RAG",
-      category: "Workflow Automation / Knowledge Management / Applied AI",
-      summary:
-        "A knowledge base that gathers the team's know-how in one place so anyone can find and use it. Verified SQL can be run on the spot.",
-      tags: ["Next.js", "FastAPI", "PostgreSQL", "AWS", "RAG"],
-      originKind: "problem",
-      origin:
-        "The past-exam data team I work on at a major cram school is mostly part-timers and changes members often, so judgment calls on unusual tasks and lessons from mistakes stayed only in veterans' heads. Written procedures were scattered across several places, leaving outdated steps and missed updates.",
-      features: [
-        {
-          label: "Write",
-          text: "Know-how is kept in six types: parts, procedures, Q&A, SQL, notes, and challenges/failures/reflections. A record of failures alone reads like blame and is hard to write, so challenges are kept alongside them.",
-        },
-        {
-          label: "Search & Ask",
-          text: "AI searches by meaning and answers with sources. AI also drafts new entries.",
-        },
-        {
-          label: "Run SQL",
-          text: "Verified SQL can be run on the spot.",
-        },
-      ],
-      techPoints: [
-        {
-          label: "Parts that prevent missed updates",
-          text: "Procedures and Q&A are assembled from parts, so fixing a part in one place updates every procedure and answer that uses it, and nothing is left out of date.",
-        },
-        {
-          label: "No outdated knowledge left behind",
-          text: "New entries go through automated checks and admin approval before they are published. After that, readers' \"outdated or wrong\" reports and review deadlines send them back to their owners.",
-        },
-      ],
-      role:
-        "As the team lead, first proposed an app where AI turns questions in Japanese into SQL: built a prototype, pitched it at a regular progress meeting with staff, and led everything from development to onboarding training. Then expanded it into a knowledge base that keeps not only SQL but also procedures and answers to common questions, and designed the knowledge types, owners, and review rules.",
-      result:
-        "The first-stage SQL app made data at a scale Excel could not handle workable and reduced the master data workload. The knowledge base (RAG) is now built, and the core flow of writing, checking, approving, searching, and running SQL already works in production. Full operation, including AI search and answers, starts next.",
-      status: "ongoing",
-    },
     {
       id: "picotouch",
       title: "Animal PicoTouch (NFC Board Game)",
