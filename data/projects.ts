@@ -8,6 +8,9 @@ export interface ProjectItem {
   highlight?: string;
   // 一覧のカードの上に出す画像（1200:630 にそろえて public/images/projects/ に置く）。ないときは薄いアイコンだけの枠になる
   image?: { src: string; alt: string };
+  // 詳細ページの最初に出す短い動画（MP4）。自動では音なしで流れ、見た人が音を出せる。src は Cloudflare R2 の URL（サイト内の /videos/… でもよい）。
+  // poster は読み込む前と動きを減らす設定のときに出す表紙で、public/images/projects/ に置く。width と height は動画の縦横で、縦長なら幅を狭めて出す。label は動画の中身の説明
+  video?: { src: string; poster: string; width: number; height: number; label: string };
   tags: string[];
   // 始まり方。課題から始まったものは「背景課題」、人の声から始まったものは「きっかけ」という見出しになる
   originKind: "problem" | "trigger";
@@ -92,6 +95,13 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
         "その場で出し合った質問に、スマホから匿名でYES/NOを答えるパーティーゲーム。登録なしで遊べる。",
       highlight: "99人の一斉回答で==失敗した操作0件・集計の不一致0件==",
       image: { src: "/images/projects/yes-or-no.webp", alt: "YES or NO のロゴ" },
+      video: {
+        src: "https://portfolio-media.ta-namisaki.workers.dev/yes-or-no-promo-v1.mp4",
+        poster: "/images/projects/yes-or-no-video.webp",
+        width: 720,
+        height: 1280,
+        label: "YES or NO の紹介動画。スマホから匿名で質問を出し、みんなが匿名で答え、結果発表で盛り上がる",
+      },
       tags: ["Next.js", "Cloudflare Workers", "Durable Objects", "WebSocket", "BigQuery"],
       originKind: "trigger",
       origin:
@@ -184,6 +194,13 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       image: {
         src: "/images/projects/memo-sync.webp",
         alt: "ちょこメモのアイコンと、チェックリストと表を書いたメモの画面",
+      },
+      video: {
+        src: "https://portfolio-media.ta-namisaki.workers.dev/chocomemo-promo-v1.mp4",
+        poster: "/images/projects/memo-sync-video.webp",
+        width: 1280,
+        height: 720,
+        label: "ちょこメモの紹介動画。メモを書き、番号のタブで切り替え、2台のPCで同期し、画像ごとAIに渡し、秘密を伏せてコピーする",
       },
       tags: ["JavaScript", "Chrome拡張機能", "Manifest V3", "CodeMirror", "Google Drive API"],
       originKind: "trigger",
@@ -348,6 +365,13 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       highlight:
         "==Zero failed operations and zero result mismatches== with 99 players answering at once",
       image: { src: "/images/projects/yes-or-no.webp", alt: "The YES or NO logo" },
+      video: {
+        src: "https://portfolio-media.ta-namisaki.workers.dev/yes-or-no-promo-v1.mp4",
+        poster: "/images/projects/yes-or-no-video.webp",
+        width: 720,
+        height: 1280,
+        label: "YES or NO promo video: asking a question anonymously from a phone, everyone answering anonymously, and the results reveal",
+      },
       tags: ["Next.js", "Cloudflare Workers", "Durable Objects", "WebSocket", "BigQuery"],
       originKind: "trigger",
       origin:
@@ -440,6 +464,13 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       image: {
         src: "/images/projects/memo-sync.webp",
         alt: "The Choco Memo icon and a note with a checklist and a table",
+      },
+      video: {
+        src: "https://portfolio-media.ta-namisaki.workers.dev/chocomemo-promo-v1.mp4",
+        poster: "/images/projects/memo-sync-video.webp",
+        width: 1280,
+        height: 720,
+        label: "Choco Memo promo video: writing a note, switching tabs, syncing between two PCs, passing a note with images to an AI, and masking secrets before copying",
       },
       tags: ["JavaScript", "Chrome Extension", "Manifest V3", "CodeMirror", "Google Drive API"],
       originKind: "trigger",
