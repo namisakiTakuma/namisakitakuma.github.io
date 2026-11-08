@@ -23,14 +23,14 @@ export const profileDataByLocale: Record<Locale, ProfileData> = {
   ja: {
     tagline: "いつも考えています。",
     iconAlt: "並崎 功真のアイコン（ペンを持った猫のイラスト）",
-    about: `私は考えることが好きです。どうすればもっと面白くできるのか。どうすればもっと伝わりやすくなるのか。どうすればもっと皆が効率よく、負担が減るのか。ふとしたときにも考えてしまいます。
+    about: `私は考えることが好きです。
+どうすればもっと面白くできるのか。どうすればもっと伝わりやすくなるのか。どうすればもっと皆の負担が減るのか。ふとしたときにも考えてしまいます。
 「もっとよくできる」に気づき、考え抜き、動いて、形になるまでもっていく。それが私の強みです。
-
-大阪公立大学大学院 情報学研究科（自然言語処理研究室）修士1年。学生ベンチャーの株式会社Cmiru（シーみる）を共同創業し、エンジニアとしても活動しています。
-好奇心旺盛でマイブームがころころ入れ替わります。よく食べ、よく遊び、夜更かしをします。猫が好きなのに、猫アレルギーなところが弱点です。`,
-    interests: ["旅行", "登山", "ゲーム", "パズル", "筋トレ", "猫"],
+私の特性としては、よく食べ、よく遊び、よく夜更かしをします。
+弱点は、猫が好きなのに猫アレルギーなところです。`,
+    interests: ["旅行", "登山", "ゲーム", "映画", "アニメ", "パズル", "筋トレ", "猫"],
     skills: [
-      "自然言語処理（NLP）",
+      "自然言語処理",
       "UI/UX",
       "Web Development",
       "Software Engineering",
@@ -42,14 +42,14 @@ export const profileDataByLocale: Record<Locale, ProfileData> = {
   en: {
     tagline: "Always thinking.",
     iconAlt: "Takuma Namisaki's icon, an illustrated cat holding a pen",
-    about: `I love to think. How can this be more fun? How can it be easier to understand? How can everyone work more efficiently, with less burden? I find myself thinking about these questions even in idle moments.
+    about: `I love to think.
+How can this be more fun? How can it be easier to understand? How can it take more of the burden off everyone? I find myself thinking about these questions even in idle moments.
 Noticing where things could be better, thinking them through, taking action, and carrying them all the way to a finished result: that is my strength.
-
-I am a first-year master's student at the Graduate School of Informatics, Osaka Metropolitan University (Natural Language Processing Lab), and a co-founder of and engineer at Cmiru, a student startup.
-I am highly curious and frequently dive into new interests. I enjoy good food, having fun, and staying up late. I love cats, but unfortunately I am allergic to them.`,
-    interests: ["Travel", "Hiking", "Games", "Puzzles", "Working out", "Cats"],
+As for my traits, I eat well, play hard, and often stay up late.
+My weakness: I love cats, but I am allergic to them.`,
+    interests: ["Travel", "Hiking", "Games", "Movies", "Anime", "Puzzles", "Working out", "Cats"],
     skills: [
-      "Natural Language Processing (NLP)",
+      "Natural Language Processing",
       "UI/UX",
       "Web Development",
       "Software Engineering",

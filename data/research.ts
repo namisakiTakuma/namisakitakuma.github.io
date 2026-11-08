@@ -2,14 +2,13 @@ export interface ResearchItem {
   id: string;
   stage: string; // 修士 / 学部
   title: string;
-  description: string;
+  description?: string;
   // 発表や掲載などの成果。==…== で囲むと蛍光ペンが引かれる
   outcomes?: Array<{ text: string; link?: string; linkText?: string }>;
   current?: boolean;
 }
 
 export interface ResearchData {
-  lead: string;
   items: ResearchItem[];
 }
 
@@ -18,7 +17,6 @@ export type Locale = "ja" | "en";
 // 新しい順に並べる
 export const researchDataByLocale: Record<Locale, ResearchData> = {
   ja: {
-    lead: "自然言語処理研究室（柳本研究室）で、大規模言語モデル（LLM）の研究をしています。",
     items: [
       {
         id: "master",
@@ -28,7 +26,7 @@ export const researchDataByLocale: Record<Locale, ResearchData> = {
           "複数の小規模言語モデルを、生成した文書を介して組み合わせる方法を研究しています。",
         outcomes: [
           {
-            text: "国際会議 AROB 2027 に投稿中（審査中）",
+            text: "国際会議 AROB 2027 に投稿中",
             link: "https://isarob.org/symposium/",
             linkText: "学会",
           },
@@ -38,8 +36,7 @@ export const researchDataByLocale: Record<Locale, ResearchData> = {
       {
         id: "undergrad",
         stage: "学部",
-        title: "LLMの複雑な推論",
-        description: "大規模言語モデルの複雑な推論について研究しました。",
+        title: "LLMの多段階推論能力の向上手法について",
         outcomes: [
           { text: "国際会議 ICICIC2025 で論文発表" },
           {
@@ -52,7 +49,6 @@ export const researchDataByLocale: Record<Locale, ResearchData> = {
     ],
   },
   en: {
-    lead: "I research large language models (LLMs) in the Natural Language Processing Lab (Yanagimoto Lab).",
     items: [
       {
         id: "master",
@@ -62,7 +58,7 @@ export const researchDataByLocale: Record<Locale, ResearchData> = {
           "Studying how to combine several small language models through the documents they generate.",
         outcomes: [
           {
-            text: "Submitted to AROB 2027 (international symposium), under review",
+            text: "Submitted to AROB 2027 (international symposium)",
             link: "https://isarob.org/symposium/",
             linkText: "Symposium",
           },
@@ -72,8 +68,7 @@ export const researchDataByLocale: Record<Locale, ResearchData> = {
       {
         id: "undergrad",
         stage: "Undergraduate",
-        title: "Complex reasoning in LLMs",
-        description: "Studied complex reasoning in large language models.",
+        title: "Methods for improving multi-step reasoning in LLMs",
         outcomes: [
           { text: "Presented a paper at ICICIC2025 (international conference)" },
           {

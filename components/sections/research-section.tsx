@@ -20,7 +20,6 @@ export function ResearchSection() {
       <h2 className="text-xl font-bold text-neutral-900 mb-4 border-b border-neutral-200 pb-2 inline-block">
         {t.researchTitle}
       </h2>
-      <p className="text-neutral-600 leading-relaxed">{research.lead}</p>
       <div className="space-y-4">
         {research.items.map((item) => (
           <Card
@@ -40,9 +39,11 @@ export function ResearchSection() {
               <h3 className="text-lg font-medium text-neutral-900 leading-snug">
                 {item.title}
               </h3>
-              <p className="text-sm text-neutral-600 mt-2 leading-relaxed">
-                {item.description}
-              </p>
+              {item.description && (
+                <p className="text-sm text-neutral-600 mt-2 leading-relaxed">
+                  {item.description}
+                </p>
+              )}
               {item.outcomes && (
                 <ul className="mt-3 space-y-1 text-sm text-neutral-600">
                   {item.outcomes.map((outcome) => (

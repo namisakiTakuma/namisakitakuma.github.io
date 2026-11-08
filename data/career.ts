@@ -16,6 +16,14 @@ export type Locale = "ja" | "en";
 export const careerDataByLocale: Record<Locale, CareerItem[]> = {
   ja: [
     {
+      id: "lycorp-intern",
+      year: 2026,
+      month: 8,
+      title: "LINEヤフー株式会社",
+      role: "エンジニア職 インターンシップ（4週間）",
+      current: false,
+    },
+    {
       id: "omu-grad",
       year: 2026,
       month: 4,
@@ -35,8 +43,8 @@ export const careerDataByLocale: Record<Locale, CareerItem[]> = {
       id: "prep-school",
       year: 2024,
       month: 8,
-      title: "大手予備校 過去問データ整備チーム",
-      role: "教材制作スタッフ（アルバイト）。2026年1月からチームの全体統括",
+      title: "株式会社ナガセ（東進ハイスクール）",
+      role: "教務研究員",
       current: true,
     },
     {
@@ -44,8 +52,8 @@ export const careerDataByLocale: Record<Locale, CareerItem[]> = {
       year: 2022,
       month: 4,
       end: { year: 2024, month: 6 },
-      title: "大阪公立大学 学園祭実行委員会",
-      role: "広報部。ポスター・フライヤー・グッズを制作し、コロナ禍で縮小した配布先を広げた",
+      title: "大阪公立大学 友好祭実行委員会",
+      role: "学園祭実行委員会の広報部に所属。ポスター・フライヤー・グッズを制作し、コロナ禍で縮小した配布先を広げた",
       current: false,
     },
     {
@@ -58,6 +66,14 @@ export const careerDataByLocale: Record<Locale, CareerItem[]> = {
     },
   ],
   en: [
+    {
+      id: "lycorp-intern",
+      year: 2026,
+      month: 8,
+      title: "LY Corporation",
+      role: "Software Engineering Internship (4 weeks)",
+      current: false,
+    },
     {
       id: "omu-grad",
       year: 2026,
@@ -78,8 +94,8 @@ export const careerDataByLocale: Record<Locale, CareerItem[]> = {
       id: "prep-school",
       year: 2024,
       month: 8,
-      title: "Past-Exam Data Team, Major Cram School",
-      role: "Teaching materials staff (part-time). Leading the team since Jan 2026",
+      title: "Nagase Brothers Inc. (Toshin High School)",
+      role: "Academic Research Staff",
       current: true,
     },
     {
@@ -87,8 +103,8 @@ export const careerDataByLocale: Record<Locale, CareerItem[]> = {
       year: 2022,
       month: 4,
       end: { year: 2024, month: 6 },
-      title: "University Festival Committee, Osaka Metropolitan University",
-      role: "PR team. Made posters, flyers, and merchandise, and expanded distribution that had shrunk during COVID-19",
+      title: "Yukosai Festival Committee, Osaka Metropolitan University",
+      role: "PR team of the university festival committee. Made posters, flyers, and merchandise, and expanded distribution that had shrunk during COVID-19",
       current: false,
     },
     {
