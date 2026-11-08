@@ -11,11 +11,17 @@ export interface ProjectItem {
   tags: string[];
   // 始まり方。課題から始まったものは「背景課題」、人の声から始まったものは「きっかけ」という見出しになる
   originKind: "problem" | "trigger";
+  // 詳細ページは、作ったものの面白さと技術を見せる。始まり → できること → 技術の見どころ → 担当 → 結果 の順に出す。
+  // 始まりは1〜2文に縮める
   origin: string;
-  role: string;
-  implementation: string;
-  result: string;
-  learning: string;
+  // 使う人から見て、何ができるか・どう遊ぶか
+  features: { label: string; text: string }[];
+  // 技術の工夫。何をどう解いたか
+  techPoints: { label: string; text: string }[];
+  // 担当。チームで作ったものだけ書く
+  role?: string;
+  // 結果。一覧のカードの highlight だけでは伝わりきらないときに書く
+  result?: string;
   url?: string;
   // 配っているプロダクトなら、data/apps.ts の slug。詳細ページに紹介ページ（/apps/<slug>/）へのリンクが出る
   app?: string;
@@ -36,15 +42,35 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       tags: ["Next.js", "FastAPI", "PostgreSQL", "AWS", "RAG"],
       originKind: "problem",
       origin:
-        "所属する大手予備校の過去問データ整備チームでは、大学入試の過去問の配点や正解などをデータベースに登録するマスタ業務を担っている。アルバイトが中心のチームで、卒業や退職のたびに人が入れ替わる。例外的な業務の判断や失敗の経験はベテランの頭の中にだけ残り、新しい人は質問して覚えるしかなかった。手順を書いた文書も何か所にも散らばり、古い手順が残ったり、直し忘れが出たりしていた。",
+        "所属する大手予備校の過去問データ整備チームは、アルバイトが中心で人の入れ替わりが多く、例外的な業務の判断や失敗の経験はベテランの頭の中にだけ残っていた。手順を書いた文書も何か所にも散らばり、古い手順が残ったり、直し忘れが出たりしていた。",
+      features: [
+        {
+          label: "書く",
+          text: "業務の知識を「部品・業務手順・QA・SQL・備忘録・挑戦/失敗/振り返り」の6種類に分けて残す。失敗だけを集めると責められる記録に見えて書きにくくなるため、挑戦も一緒に残せるようにした。",
+        },
+        {
+          label: "探す・聞く",
+          text: "AIが意味で探し、根拠を示して答える。知識の下書きもAIが作る。",
+        },
+        {
+          label: "SQLを実行する",
+          text: "確かめ済みのSQLを、その場で実行できる。",
+        },
+      ],
+      techPoints: [
+        {
+          label: "部品で直し忘れをなくす",
+          text: "業務手順とQAは、部品を組み合わせて作る。部品を1か所直せば、それを使う手順とQAがすべて新しくなるので、直し忘れが起きない。",
+        },
+        {
+          label: "古い知識を残さない",
+          text: "登録した知識は、機械のチェックと管理者の承認を経て公開する。公開した後も、読んだ人からの「古い・違う」の知らせや見直しの期限で、担当者に戻る。",
+        },
+      ],
       role:
         "チームの統括者として、まずAIが日本語の質問からSQLを作るアプリを発案した。試作を作って社員への定例報告の場で提案し、開発から導入研修までを主導した。そこから、SQLだけでなく業務の手順やよく聞かれることの答えまで残せるナレッジ基盤へと広げ、知識の種類、担当、見直しの決まりを設計した。",
-      implementation:
-        "Next.jsとFastAPIで作り、知識はAWS上のPostgreSQLにためる。知識は「部品・業務手順・QA・SQL・備忘録・挑戦/失敗/振り返り」の6種類に分け、業務手順とQAは部品を組み合わせて作る。部品を1か所直せば、それを使う手順とQAがすべて新しくなるので、直し忘れが起きない。登録した知識は機械のチェックと管理者の承認を経て公開され、読んだ人からの「古い・違う」の知らせや見直しの期限で担当者に戻る。AIが意味で探し、根拠を示して答える機能と、下書きを作る機能も実装した（構成図は別途追加予定）。",
       result:
         "最初に作ったSQLアプリでは、Excelでは扱えない規模のデータも処理できるようになり、マスタ業務の工数を減らせた。ナレッジ基盤（RAG）は作り終え、書く、確かめる、承認する、探す、SQLを実行するといった基本の流れは、すでに本番で動いている。AIによる検索と回答を含めた本格的な運用は、これから始める。",
-      learning:
-        "知識は集めるだけでは残らず、書く手間を減らし、直す場所を1か所にまとめて、初めて続くと学んだ。書く人の気持ちも大切で、失敗だけを集めると責められる記録に見えて書きにくくなるため、挑戦も一緒に残すようにした。",
       status: "ongoing",
     },
     {
@@ -61,15 +87,43 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       tags: ["Flutter", "GCP", "NFC", "iOS"],
       originKind: "problem",
       origin:
-        "役員として経営に携わるシーみるに、取引先企業から、NFCカードの販売を広げたいという相談があった。既存のNFC名刺などはビジネス層向けが中心で、使われる場面が限られていた。私たちも自分たちのゲームを作ってみたいと考えていたため、NFCカードで遊ぶゲームとして形にすることにした。",
+        "役員として経営に携わるシーみるに、取引先企業から、NFCカードの販売を広げたいという相談があった。NFC名刺などのビジネス向けが中心だったため、自分たちも作ってみたかったゲームとして、家族で遊べる形にすることにした。",
+      features: [
+        {
+          label: "相棒を選ぶ",
+          text: "アプリを起動して、6枚のプレイヤーカードから相棒を選んでタッチする。各プレイヤーには体力があり、その回数分だけ行動できる。難易度も選べる。",
+        },
+        {
+          label: "数字を当てる",
+          text: "1つの数字をみんなで当てて、最初に当てた人が勝ち。回答すると、数字も場所も合っている数の「Hit」と、数字は合っているが場所が違う数の「Blow」の、2つのヒントが出る。",
+        },
+        {
+          label: "回答権は早い者勝ち",
+          text: "回答権は、カードをスマホにタッチして取る。",
+        },
+        {
+          label: "ヒントを見る",
+          text: "アプリに出るQRコードを読み込むと、ほかのスマホからもヒントを見られる。",
+        },
+        {
+          label: "イベント",
+          text: "ゲームが進むと、まれにイベントが起きる。参加したいときは、カードをスキャンする。",
+        },
+      ],
+      techPoints: [
+        {
+          label: "タッチする手ざわり",
+          text: "NFCならではの、カードを手に取ってタッチする操作を軸に、短い時間でも盛り上がる画面と流れを設計した。",
+        },
+        {
+          label: "アプリとWebで分ける",
+          text: "ゲームはアプリで遊び、履歴はWebで見る形に分けた。ゲーム画面はFlutterで作り、バックエンドと履歴の管理はGCPに置いた。",
+        },
+      ],
       role:
-        "ターゲットをファミリー層へ拡張する方針を立案し、NFCカードを活用したHit&Blow形式のボードゲームを企画。iOSアプリでゲーム体験、Webで履歴閲覧という役割分担を設計した。",
-      implementation:
-        "Flutterでゲーム画面を実装し、GCPでバックエンドと履歴管理を構築。NFCならではの物理インタラクションを軸に、短時間でも盛り上がるUI/UXを設計した。",
+        "ターゲットをファミリー層へ広げる方針を立て、NFCカードを使ったHit&Blow形式のボードゲームを企画した。アプリとWebの役割分担も設計した。",
       result:
         "2025年12月に==幕張メッセ開催のボードゲームマーケットで展示==し、海外来場者からファミリー層まで幅広く好評を得た。現在はAmazonで販売中。",
-      learning:
-        "既存ゲームのルールに新技術を掛け合わせることで、体験価値は大きく再設計できると実感した。アイデア自体の新規性だけでなく、組み合わせの設計が差別化の鍵になる。",
     },
     {
       id: "yes-or-no",
@@ -82,15 +136,41 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       tags: ["Next.js", "Cloudflare Workers", "Durable Objects", "WebSocket", "BigQuery"],
       originKind: "trigger",
       origin:
-        "友人から、みんなで集まる場で遊べるゲームがほしいという声を聞いたのが始まり。飲み会や学校・職場のアイスブレイクでは、本音を聞きたくても人前では答えにくい質問がある。既存の匿名アンケートツールは事前準備が必要で、その場で質問を出し合って盛り上がる用途には向いていなかったため、登録なしですぐに遊べるゲームとして作ることにした。",
+        "友人から、みんなで集まる場で遊べるゲームがほしいという声を聞いたのが始まり。人前では答えにくい質問でも本音が聞けて、事前準備のいる匿名アンケートと違い、その場で質問を出し合える、登録なしのゲームとして作った。",
+      features: [
+        {
+          label: "参加する",
+          text: "登録なしで、スマホからルームコードかQRコードで参加する。",
+        },
+        {
+          label: "答える",
+          text: "参加者が投稿した質問に、順番に匿名でYES/NOで答える。",
+        },
+        {
+          label: "結果を見る",
+          text: "誰が何と答えたかは分からず、集計した結果だけが画面に出る。",
+        },
+      ],
+      techPoints: [
+        {
+          label: "99人の一斉回答でも壊れない",
+          text: "最初のFirebaseの構成では、大人数が一斉に答えると書き込みが競合した。そこでCloudflare WorkersとDurable Objectsへ移り、ルームごとに処理を1本にまとめた。99人・10問の負荷試験では、一斉参加・一斉回答で==失敗した操作0件・集計の不一致0件==を確かめた。",
+        },
+        {
+          label: "答えを読ませない",
+          text: "質問と投票は利用者から読めないようにし、匿名化した集計結果だけを配る。不正な利用は、Turnstileとレート制限で防ぐ。",
+        },
+        {
+          label: "裏に回しても戻る",
+          text: "状態はWebSocketで配る。iPhoneのSafariやChromeでアプリを裏に回して戻しても、自動で最新の状態に戻ることを実機で確かめた。",
+        },
+        {
+          label: "お題を良くする",
+          text: "利用データはD1にためてBigQueryへ毎日送り、お題の改善に使っている。",
+        },
+      ],
       role:
-        "株式会社シーみるのプロダクトとして、開発メンバーとともにサービスの方向性を検討。バックエンドのCloudflare移行や本番切り替え、プライバシーポリシー改定などのプルリクエストをレビューし、リリース判断を担当した。",
-      implementation:
-        "登録不要のモバイルWebアプリとしてNext.jsで画面を構築。スマホからルームコード（QRコード）で参加し、参加者が投稿した質問に順番に匿名でYES/NO回答する。質問と投票は利用者から読めないようにし、匿名化した集計結果だけを配信する設計にした。当初のFirebase構成では大人数の一斉回答で書き込みの競合が起きたため、Cloudflare Workers + Durable Objectsへ移行し、ルームごとに処理を1本化。WebSocketで状態を配信し、Turnstileとレート制限で不正利用を防いでいる。利用データはD1にためてBigQueryへ日次転送し、お題の改善に活用している。",
-      result:
-        "yesno.cmiru.com で一般公開。99人・10問の負荷試験では、一斉参加・一斉回答で==失敗した操作0件・集計の不一致0件==を確認し、Firebase版で発生していた競合を解消した。iPhoneのSafari/Chromeでアプリを裏に回して戻しても、自動で最新状態に復帰することも実機で確認した。",
-      learning:
-        "リアルタイムの多人数ゲームでは、機能よりも「同時アクセス時に状態が壊れないこと」が体験の土台になると学んだ。負荷試験で問題を定量的に示し、アーキテクチャごと見直す判断の重要性を実感した。",
+        "株式会社シーみるのプロダクトとして、開発メンバーとともにサービスの方向性を検討した。バックエンドのCloudflare移行や本番切り替え、プライバシーポリシー改定などのプルリクエストをレビューし、リリース判断を担当した。",
       url: "https://yesno.cmiru.com",
     },
     {
@@ -107,15 +187,33 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       tags: ["Flutter", "Firebase", "iOS", "Android"],
       originKind: "trigger",
       origin:
-        "友人たちは普段から、街で見つけたものでマスを埋めていく手作りのビンゴで遊んでいた。その友人たちから、この遊びのアプリがほしいという声があり、アプリにすることにした。既存のビンゴアプリは抽選型のゲームが中心で、街歩きと組み合わせて遊べるものは少なかった。",
+        "友人たちが普段から遊んでいた、街で見つけたものでマスを埋めていく手作りのビンゴを、本人たちの声を受けてアプリにした。既存のビンゴアプリは抽選型が中心で、街歩きと組み合わせて遊べるものは少なかった。",
+      features: [
+        {
+          label: "カードを作る",
+          text: "好きな言葉を入れる、おすすめのテーマから選ぶ、単語群からランダムに作る、の3通りでカードを作れる。3×3〜5×5のサイズやFREEマスも選べる。",
+        },
+        {
+          label: "見つけて埋める",
+          text: "見つけたマスは写真付きで記録できる。完成したカードは画像として保存できる。",
+        },
+        {
+          label: "友達に送る",
+          text: "作ったカードを、リンクで友達に送れる。",
+        },
+      ],
+      techPoints: [
+        {
+          label: "リンク1本で共有",
+          text: "カードはFirestoreを使ったリンクで共有し、受け取った人はWeb版からも遊べるようにした。",
+        },
+        {
+          label: "公開した後も育てる",
+          text: "FlutterでiOSとAndroidのアプリを作った。Remote Configで更新を案内し、GA4では同意を得てから計測する。ランディングページはCloudflare Pagesで公開した。",
+        },
+      ],
       role:
         "株式会社シーみるのプロダクトとして、開発メンバーとともに企画・サービス設計に関わった。",
-      implementation:
-        "FlutterでiOS/Androidアプリを開発。好きな言葉を入れる手動作成、おすすめテーマからの作成、単語群からのランダム生成の3通りでカードをつくれ、3×3〜5×5のサイズやFREEマスも選べる。見つけたマスは写真付きで記録でき、完成したカードは画像として保存できる。Firestoreを使ったリンク共有で友達にカードを送れ、受け取った人はWeb版からも遊べる。Remote Configによる更新案内、GA4による同意ベースの計測、Cloudflare Pagesでのランディングページ（bingo.cmiru.com）も整備した。",
-      result:
-        "==App StoreとGoogle Playでアプリを公開==。ランディングページから各ストアへの導線を用意し、散歩・おでかけ・旅行の場面で気軽に遊べるサービスとして提供している。",
-      learning:
-        "「歩く」という日常の行動にビンゴという分かりやすいルールを重ねることで、新しい体験をつくれると学んだ。初めての人でも迷わず遊べるよう、チュートリアルやカード作成の導線設計が重要になる。",
       url: "https://bingo.cmiru.com",
     },
     {
@@ -131,14 +229,52 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       tags: ["JavaScript", "Chrome拡張機能", "Manifest V3", "CodeMirror", "Google Drive API"],
       originKind: "trigger",
       origin:
-        "研究でも仕事でも、ちょっとしたことをすぐ書き留めたい場面が多い。けれど、使っていたメモの拡張機能は、日本語での使いやすさや、複数のPCでの同期に物足りなさがあった。自分が毎日使う道具として、開いてすぐ書けて、どのPCでも同じメモが見られるものを作ることにした。",
-      role: "企画から設計・実装・テスト、ストアへの公開の準備まで、1人で担当した。",
-      implementation:
-        "JavaScriptとChromeの拡張機能の仕組み（Manifest V3）で作り、外部のライブラリは編集欄のCodeMirrorだけにした。同期は、Chromeの同期機能か、Googleドライブのアプリ専用の見えない場所から選べる。メモは番号ではなく固定のIDで扱い、メモごとに新しいほうを採用する。両方のPCで書き換わっていたときは、負けたほうをバックアップに取って知らせ、消えたことも印を残して伝える。書式を付けたまま書けるMarkdown、すべてのメモからの検索と置換、画像の貼り付けと印付け、コーディングAIにそのまま渡せるコピーも備えた。パスワードやAPIキーらしい文字は、PCの中だけで見つけて知らせる。",
-      result:
-        "メモは利用者のPCとGoogleアカウントの中だけに置き、開発者のサーバー・利用状況の記録・広告のない形にした。同期の動きを自動テストで確かめられるようにし、Chromeウェブストアでの公開を準備している。",
-      learning:
-        "同期は、ふだんは目立たないが、間違えると大事なメモが消える。どちらを残すか、消したことをどう伝えるかを先に決め、負けたほうを必ず残すようにしたことで、安心して毎日使える道具になると学んだ。",
+        "使っていたメモの拡張機能は、日本語での使いやすさや、複数のPCでの同期に物足りなさがあった。そこで、開いてすぐ書けて、どのPCでも同じメモが見られる道具を、自分で作ることにした。",
+      // できることは、紹介ページ（app/apps/chocomemo/page.tsx）の文を写したもの。紹介ページを直したら、ここも合わせる
+      features: [
+        {
+          label: "書く",
+          text: "番号のタブでメモを切り替える。書いたそばから保存する。日時や、表示中のページのタイトルとURLをボタンで入れられる。右クリックで、選んだ文字をメモに送れる。サイドパネルでも開ける。",
+        },
+        {
+          label: "Markdown",
+          text: "書式を付けて表示に切り替えると、見出しや表が整った見た目のまま書ける。「#」や「**」の記号は、カーソルのある所だけに出る。チェックボックスは押すだけで入れ替わり、箇条書きはEnterで次の行にも続く。行の頭で「/」を打つと、表・見出し・チェックボックスなどを選んで入れられる。「書式付きでコピー」で、Slack・Googleドキュメント・Gmailに貼っても書式が残る。",
+        },
+        {
+          label: "探す・置換",
+          text: "すべてのメモから探して、置換できる。大文字と小文字、全角と半角、ひらがなとカタカナは区別しない。置換の直後は「元に戻す」で戻せる。",
+        },
+        {
+          label: "画像",
+          text: "貼り付けとドラッグで画像を足せる。四角・矢印・文字で印を付けられる。書いている場所に「[画像 1]」の印が入る。",
+        },
+        {
+          label: "AIに渡す",
+          text: "「コピー」で、文章と画像の保存場所をまとめてコピーする。Claude CodeなどのコーディングAIにそのまま貼れる。",
+        },
+        {
+          label: "整理",
+          text: "グループで絞り込める。メモのタブもグループも、ドラッグで並べ替えられる。削除したメモと画像は、ゴミ箱から30日間戻せる。テキストやZIPで書き出し・取り込みができる。",
+        },
+        {
+          label: "守る",
+          text: "パスワード・APIキー・個人情報らしい文字を見つけて知らせる。コピーの前に、見つけた文字を伏せられる。メモを隠して、画面に出さないこともできる。隠すのは画面だけで、暗号化はしない。",
+        },
+      ],
+      techPoints: [
+        {
+          label: "同期でメモを消さない",
+          text: "メモは番号ではなく固定のIDで扱い、メモごとに新しいほうを採用する。両方のPCで書き換わっていたときは、負けたほうをバックアップに取って知らせ、消えたことも印を残して伝える。同期の動きは、自動テストで確かめられるようにした。",
+        },
+        {
+          label: "2つの同期方式",
+          text: "同期は、Chromeの同期機能か、Googleドライブのアプリ専用の見えない場所から選べる。Chromeの同期機能は合計100KB、日本語でおよそ3万字までで、画像は貼れない。Googleドライブなら容量を気にせず、画像も貼れる。ドライブのほかのファイルは読まない。",
+        },
+        {
+          label: "メモを外に出さない",
+          text: "メモは利用者のPCとGoogleアカウントの中だけに置き、開発者のサーバー・利用状況の記録・広告のない形にした。パスワードやAPIキーらしい文字も、PCの中だけで見つける。外部のライブラリは編集欄のCodeMirrorだけにし、外のサーバーからスクリプトを読み込むこともない。",
+        },
+      ],
       url: "https://github.com/namisakiTakuma/memo-sync",
       app: "chocomemo",
       status: "ongoing",
@@ -157,14 +293,35 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       tags: ["Next.js", "Cloudflare Workers", "D1", "R2", "MapLibre"],
       originKind: "trigger",
       origin:
-        "旅行や登山、食べ歩きで行った場所を、あとから振り返る場所がなかった。写真やメモはばらばらに残り、どこへいつ行ったのかが見えにくかった。行った場所を地図で一目で見られて、眺めるだけでも楽しい自分用の記録を作ることにした。",
-      role: "企画・デザイン・実装から、本番での運用まで1人で担当した。",
-      implementation:
-        "Next.jsをCloudflare Workersで動かし、データはD1（Drizzle）、写真はR2に置く。地図はMapLibreとOpenFreeMapで描き、色はパレットの定義から作った。表紙が本のようにめくれ、旅を開くとねこが道のりを歩いて足あとを残す。旅ごとの挿絵は旅のデータから組み立て、写真がない旅でも1ページになる。管理画面「旅の編集室」からは、旅の追加、場所の検索、立ち寄り先の並べ替え、写真の追加ができる。写真はブラウザで縮小し、位置情報の入ったEXIFを消してから送る。",
-      result:
-        "本番で公開し、==26の旅・156か所の足あとを記録==した。都道府県のスタンプ、年ごとのふりかえり、前の年の同じころの旅を出す「あの日の旅」など、使いながら機能を足し続けている。",
-      learning:
-        "最初はJSONファイルを手で直す静的サイトにしたが、更新の手間が重いと続かないと分かり、DBと管理画面に作り直した。写真に撮影日や場所を入れる設計もやめ、続けられる最小の形にした。データの形がきれいでも、入力する人の手間が重ければ使われないと学んだ。",
+        "旅行や登山、食べ歩きで行った場所を、あとから振り返る場所がなかった。行った場所を地図で一目で見られて、眺めるだけでも楽しい自分用の記録を作ることにした。",
+      features: [
+        {
+          label: "本のようにめくる",
+          text: "表紙が本のようにめくれる。旅を開くと、ねこが道のりを歩いて足あとを残す。",
+        },
+        {
+          label: "旅ごとの絵日記",
+          text: "旅ごとの挿絵は旅のデータから組み立てるので、写真がない旅でも1ページになる。",
+        },
+        {
+          label: "ふりかえる",
+          text: "都道府県のスタンプ、年ごとのふりかえり、前の年の同じころの旅を出す「あの日の旅」で、行った旅を振り返れる。",
+        },
+      ],
+      techPoints: [
+        {
+          label: "続けられる形に作り直す",
+          text: "最初はJSONファイルを手で直す静的サイトにしたが、更新の手間が重いと続かないと分かり、DBと管理画面「旅の編集室」に作り直した。旅の追加、場所の検索、立ち寄り先の並べ替え、写真の追加を画面からできる。写真に撮影日や場所を入れる設計もやめ、続けられる最小の形にした。",
+        },
+        {
+          label: "Cloudflareの上で動かす",
+          text: "Next.jsをCloudflare Workersで動かし、データはDrizzleを通してD1に、写真はR2に置く。地図はMapLibreとOpenFreeMapで描き、色はパレットの定義から作った。",
+        },
+        {
+          label: "写真から場所を漏らさない",
+          text: "写真はブラウザで縮小し、位置情報の入ったEXIFを消してから送る。",
+        },
+      ],
       url: "https://my-travel.ta-namisaki.workers.dev",
       status: "ongoing",
     },
@@ -179,15 +336,35 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       tags: ["Next.js", "FastAPI", "PostgreSQL", "AWS", "RAG"],
       originKind: "problem",
       origin:
-        "I work on the past-exam data team at a major cram school, handling the master data work of registering scores, answers, and other details of past university entrance exam questions into a database. The team is mostly part-timers, and members change whenever someone graduates or leaves. Judgment calls on unusual tasks and lessons from mistakes stayed only in veterans' heads, so newcomers could only learn by asking. Written procedures were scattered across several places, leaving outdated steps and missed updates.",
+        "The past-exam data team I work on at a major cram school is mostly part-timers and changes members often, so judgment calls on unusual tasks and lessons from mistakes stayed only in veterans' heads. Written procedures were scattered across several places, leaving outdated steps and missed updates.",
+      features: [
+        {
+          label: "Write",
+          text: "Know-how is kept in six types: parts, procedures, Q&A, SQL, notes, and challenges/failures/reflections. A record of failures alone reads like blame and is hard to write, so challenges are kept alongside them.",
+        },
+        {
+          label: "Search & Ask",
+          text: "AI searches by meaning and answers with sources. AI also drafts new entries.",
+        },
+        {
+          label: "Run SQL",
+          text: "Verified SQL can be run on the spot.",
+        },
+      ],
+      techPoints: [
+        {
+          label: "Parts that prevent missed updates",
+          text: "Procedures and Q&A are assembled from parts, so fixing a part in one place updates every procedure and answer that uses it, and nothing is left out of date.",
+        },
+        {
+          label: "No outdated knowledge left behind",
+          text: "New entries go through automated checks and admin approval before they are published. After that, readers' \"outdated or wrong\" reports and review deadlines send them back to their owners.",
+        },
+      ],
       role:
         "As the team lead, first proposed an app where AI turns questions in Japanese into SQL: built a prototype, pitched it at a regular progress meeting with staff, and led everything from development to onboarding training. Then expanded it into a knowledge base that keeps not only SQL but also procedures and answers to common questions, and designed the knowledge types, owners, and review rules.",
-      implementation:
-        "Built with Next.js and FastAPI, storing knowledge in PostgreSQL on AWS. Knowledge is split into six types: parts, procedures, Q&A, SQL, notes, and challenges/failures/reflections. Procedures and Q&A are assembled from parts, so fixing a part in one place updates every procedure and answer that uses it, and nothing is left out of date. New entries go through automated checks and admin approval before they are published, and readers' \"outdated or wrong\" reports and review deadlines send them back to their owners. Also implemented AI features that search by meaning, answer with sources, and draft entries (architecture diagram coming soon).",
       result:
         "The first-stage SQL app made data at a scale Excel could not handle workable and reduced the master data workload. The knowledge base (RAG) is now built, and the core flow of writing, checking, approving, searching, and running SQL already works in production. Full operation, including AI search and answers, starts next.",
-      learning:
-        "Learned that collecting knowledge is not enough to keep it: it lasts only when writing is easy and every fix happens in one place. How writers feel matters too. A record of failures alone reads like blame and is hard to write, so challenges are kept alongside them.",
       status: "ongoing",
     },
     {
@@ -205,15 +382,43 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       tags: ["Flutter", "GCP", "NFC", "iOS"],
       originKind: "problem",
       origin:
-        "CMIRU, where I serve as an executive, was approached by a partner company that wanted to expand sales of its NFC cards. Existing products such as NFC business cards mainly targeted business users, which limited where the cards were used. Since our team had also wanted to make a game of our own, we decided to build one played with NFC cards.",
+        "CMIRU, where I serve as an executive, was approached by a partner company that wanted to expand sales of its NFC cards. NFC cards were mostly used for business, such as NFC business cards, so we turned them into a game for families, something we had wanted to make ourselves.",
+      features: [
+        {
+          label: "Pick a partner",
+          text: "Launch the app, choose a partner from six player cards, and tap it. Each player has stamina, which sets how many moves they can make. You can also choose the difficulty.",
+        },
+        {
+          label: "Guess the number",
+          text: "Everyone tries to guess one number, and the first to get it wins. Each answer gives two hints: \"Hit\" is the count of right digits in the right place, and \"Blow\" is the count of right digits in the wrong place.",
+        },
+        {
+          label: "First tap answers",
+          text: "The right to answer goes to whoever taps their card on the phone first.",
+        },
+        {
+          label: "See the hints",
+          text: "Scan the QR code shown in the app to see the hints from another phone.",
+        },
+        {
+          label: "Events",
+          text: "As the game goes on, events occasionally happen. To join one, scan your card.",
+        },
+      ],
+      techPoints: [
+        {
+          label: "The feel of a tap",
+          text: "Designed the screens and flow around the tactile act of picking up a card and tapping it, which only NFC allows, so even short games get lively.",
+        },
+        {
+          label: "App and web, each with its job",
+          text: "The game is played in the app, and the history is viewed on the web. Gameplay was built with Flutter, and the backend and history management run on GCP.",
+        },
+      ],
       role:
-        "Proposed a family-focused direction and planned a Hit&Blow-style board game using NFC cards. Designed the experience split between an iOS gameplay app and a web-based history view.",
-      implementation:
-        "Developed gameplay with Flutter and built backend/history management on GCP. Focused on tactile, NFC-driven interactions for fast and engaging sessions.",
+        "Proposed a family-focused direction and planned a Hit&Blow-style board game using NFC cards. Also designed how the work is split between the app and the web.",
       result:
         "==Showcased at Board Game Market in Makuhari Messe== (Dec 2025), receiving strong traction from both international visitors and families. Now available on Amazon.",
-      learning:
-        "Even familiar game mechanics can generate new value when combined with the right technology and interaction design.",
     },
     {
       id: "yes-or-no",
@@ -227,15 +432,41 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       tags: ["Next.js", "Cloudflare Workers", "Durable Objects", "WebSocket", "BigQuery"],
       originKind: "trigger",
       origin:
-        "It started when a friend told us they wanted a game to play when everyone gets together. At parties or icebreakers at school and work, some questions are hard to answer honestly in front of others. Existing anonymous survey tools require advance setup and are not designed for asking questions on the spot and enjoying the results together, so we built a game anyone can play right away without signing up.",
+        "It started when a friend told us they wanted a game to play when everyone gets together. We built a sign-up-free game that draws out honest answers to questions that are hard to answer in front of others and, unlike anonymous surveys that need advance setup, lets people ask questions on the spot.",
+      features: [
+        {
+          label: "Join",
+          text: "Join a room from your phone with a room code or QR code, with no sign-up.",
+        },
+        {
+          label: "Answer",
+          text: "Answer questions posted by participants in turn, with an anonymous YES or NO.",
+        },
+        {
+          label: "See the results",
+          text: "No one can tell who answered what; only the totals appear on screen.",
+        },
+      ],
+      techPoints: [
+        {
+          label: "Holds up with 99 players at once",
+          text: "In the first Firebase setup, writes collided when many players answered at once. So the backend moved to Cloudflare Workers and Durable Objects, processing each room in a single line. A load test with 99 players and 10 questions showed ==zero failed operations and zero result mismatches== for simultaneous joins and answers.",
+        },
+        {
+          label: "Answers no one can read",
+          text: "Questions and votes are never readable by clients; only anonymized totals are delivered. Abuse is prevented with Turnstile and rate limiting.",
+        },
+        {
+          label: "Back in sync after the background",
+          text: "State is pushed over WebSocket. Verified on real iPhones, in Safari and Chrome, that the app returns to the latest state automatically after coming back from the background.",
+        },
+        {
+          label: "Better questions",
+          text: "Usage data is buffered in D1 and sent to BigQuery daily to improve the questions.",
+        },
+      ],
       role:
         "As a CMIRU product, worked with the development team on the service direction. Reviewed pull requests for the backend migration to Cloudflare, the production cutover, and the privacy policy revision, and made release decisions.",
-      implementation:
-        "Built a sign-up-free mobile web app with Next.js. Players join a room with a room code (or QR code) and anonymously answer YES/NO to questions posted by participants in turn. Questions and votes are never readable by clients; only anonymized aggregate results are delivered. Because the initial Firebase setup suffered write contention when many players answered at once, the backend was migrated to Cloudflare Workers + Durable Objects so each room is processed sequentially. State is pushed over WebSocket, abuse is prevented with Turnstile and rate limiting, and usage data is buffered in D1 and exported daily to BigQuery to improve question content.",
-      result:
-        "Publicly launched at yesno.cmiru.com. A load test with 99 players and 10 questions showed ==zero failed operations and zero result mismatches== for simultaneous joins and answers, resolving the contention seen in the Firebase version. Also verified on real iPhones (Safari/Chrome) that the app recovers to the latest state automatically after returning from the background.",
-      learning:
-        "In real-time multiplayer games, keeping state consistent under concurrent access is the foundation of the experience. Quantifying the problem through load testing made it possible to justify rethinking the architecture itself.",
       url: "https://yesno.cmiru.com",
     },
     {
@@ -252,15 +483,33 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       tags: ["Flutter", "Firebase", "iOS", "Android"],
       originKind: "trigger",
       origin:
-        "Some friends of ours already played a homemade bingo, filling in squares with things they found around town. When they told us they wanted an app for it, we decided to build one. Most bingo apps are draw-based games, and few are designed to be played while walking around town.",
+        "Some friends of ours already played a homemade bingo, filling in squares with things they found around town, and when they asked for an app, we built one. Most bingo apps are draw-based, and few are designed to be played while walking around town.",
+      features: [
+        {
+          label: "Make a card",
+          text: "Create a card in three ways: enter your own words, pick a recommended theme, or generate one at random from word sets. Choose a size from 3x3 to 5x5, with an optional FREE cell.",
+        },
+        {
+          label: "Find and fill",
+          text: "Record each square you find with a photo. Save the finished card as an image.",
+        },
+        {
+          label: "Send to friends",
+          text: "Send the card you made to friends with a link.",
+        },
+      ],
+      techPoints: [
+        {
+          label: "Share with one link",
+          text: "Cards are shared through links backed by Firestore, and recipients can also play on the web.",
+        },
+        {
+          label: "Keeps growing after release",
+          text: "Built the iOS and Android apps with Flutter. Update prompts come through Remote Config, GA4 tracking starts only after consent, and the landing page is published on Cloudflare Pages.",
+        },
+      ],
       role:
         "As a CMIRU product, took part in planning and service design together with the development team.",
-      implementation:
-        "Developed an iOS/Android app with Flutter. Cards can be created in three ways (entering your own words, choosing from recommended themes, or random generation from word sets), with sizes from 3x3 to 5x5 and an optional FREE cell. Found cells can be recorded with photos, and completed cards can be saved as images. Cards can be shared with friends via links backed by Firestore, and recipients can also play on the web. Also set up update prompts with Remote Config, consent-based GA4 tracking, and a landing page on Cloudflare Pages (bingo.cmiru.com).",
-      result:
-        "==Released on the App Store and Google Play==, with a landing page linking to both stores, offered as a casual way to enjoy walks, outings, and trips.",
-      learning:
-        "Layering a simple, familiar rule like bingo onto an everyday activity like walking can create a new experience. Onboarding, such as tutorials and a clear card-creation flow, is key for first-time users.",
       url: "https://bingo.cmiru.com",
     },
     {
@@ -276,14 +525,51 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       tags: ["JavaScript", "Chrome Extension", "Manifest V3", "CodeMirror", "Google Drive API"],
       originKind: "trigger",
       origin:
-        "In both research and work, I often want to jot something down right away. The note extensions I used fell short on ease of use in Japanese and on syncing across several PCs. So I decided to build the tool I use every day: one that is ready to write in the moment it opens and shows the same notes on every PC.",
-      role: "Handled everything on my own, from planning and design to implementation, testing, and preparing the store release.",
-      implementation:
-        "Built with plain JavaScript and the Chrome extension platform (Manifest V3); the only external library is CodeMirror for the editor. Sync runs through either Chrome sync or a hidden app-only folder in Google Drive. Notes are tracked by fixed IDs rather than tab numbers, and the newer version of each note wins. When a note changed on both PCs, the losing version is backed up and the user is told, and deletions are passed on as markers. It also has Markdown that stays formatted while you write, search and replace across all notes, image pasting with annotations, and a copy button that hands everything to a coding AI as is. Text that looks like a password or API key is detected on the PC only.",
-      result:
-        "Notes stay only on the user's PC and in their Google account, with no developer server, usage tracking, or ads. The sync behavior is covered by automated tests, and the Chrome Web Store release is in preparation.",
-      learning:
-        "Sync stays invisible most of the time, but one mistake can erase an important note. Deciding up front which version to keep and how to pass on deletions, and always keeping the losing version, is what makes a tool safe to use every day.",
+        "The note extensions I used fell short on ease of use in Japanese and on syncing across several PCs. So I decided to build my own: one that is ready to write in the moment it opens and shows the same notes on every PC.",
+      features: [
+        {
+          label: "Write",
+          text: "Switch notes with numbered tabs. Notes are saved as you type. Buttons insert the date and time, or the title and URL of the page you are viewing. Right-click to send selected text to a note. It also opens in the side panel.",
+        },
+        {
+          label: "Markdown",
+          text: "Switch to the formatted view to write with headings and tables already laid out. Symbols such as \"#\" and \"**\" appear only where the cursor is. Checkboxes toggle with a click, and lists continue onto the next line when you press Enter. Type \"/\" at the start of a line to insert a table, heading, checkbox, and more. \"Copy with formatting\" keeps the formatting when you paste into Slack, Google Docs, or Gmail.",
+        },
+        {
+          label: "Search & Replace",
+          text: "Search and replace across all notes. It treats upper and lower case, full-width and half-width characters, and hiragana and katakana as the same. Right after a replace, \"Undo\" puts it back.",
+        },
+        {
+          label: "Images",
+          text: "Add images by pasting or dragging. Mark them up with boxes, arrows, and text. A marker for each image is inserted where you are writing.",
+        },
+        {
+          label: "Hand Off to AI",
+          text: "\"Copy\" copies the text together with where the images are saved, ready to paste into a coding AI such as Claude Code.",
+        },
+        {
+          label: "Organize",
+          text: "Filter notes by group. Reorder note tabs and groups by dragging. Deleted notes and images can be restored from the trash for 30 days. Export and import as text or ZIP.",
+        },
+        {
+          label: "Protect",
+          text: "Finds text that looks like a password, API key, or personal information and tells you. You can mask it before copying. You can also hide notes from the screen; hiding only affects the screen and is not encryption.",
+        },
+      ],
+      techPoints: [
+        {
+          label: "Sync that never loses a note",
+          text: "Notes are tracked by fixed IDs rather than tab numbers, and the newer version of each note wins. When a note changed on both PCs, the losing version is backed up and the user is told, and deletions are passed on as markers. The sync behavior is covered by automated tests.",
+        },
+        {
+          label: "Two ways to sync",
+          text: "Sync runs through either Chrome sync or a hidden app-only folder in Google Drive. Chrome sync holds 100KB in total, about 30,000 Japanese characters, and cannot carry images. Google Drive has room to spare and carries images too. It never reads any other files in the Drive.",
+        },
+        {
+          label: "Notes stay with the user",
+          text: "Notes stay only on the user's PC and in their Google account, with no developer server, usage tracking, or ads. Text that looks like a password or API key is also detected on the PC only. The only external library is CodeMirror for the editor, and no scripts are loaded from outside servers.",
+        },
+      ],
       url: "https://github.com/namisakiTakuma/memo-sync",
       app: "chocomemo",
       status: "ongoing",
@@ -302,14 +588,35 @@ export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
       tags: ["Next.js", "Cloudflare Workers", "D1", "R2", "MapLibre"],
       originKind: "trigger",
       origin:
-        "I had no place to look back on where I had been for trips, hikes, and food outings. Photos and notes were scattered, so it was hard to see where I went and when. I decided to make a record for myself that shows every place on a map at a glance and is fun just to browse.",
-      role: "Handled everything on my own, from planning, design, and implementation to running it in production.",
-      implementation:
-        "Next.js runs on Cloudflare Workers, with data in D1 (Drizzle) and photos in R2. The map is drawn with MapLibre and OpenFreeMap, with colors generated from a palette definition. The cover turns like a book, and opening a trip sends a cat walking along the route, leaving footprints. Each trip's illustration is assembled from its data, so even trips without photos make a full page. From the admin screen, I can add trips, search for places, reorder stops, and add photos. Photos are resized in the browser and stripped of location EXIF data before upload.",
-      result:
-        "Live in production, ==recording 26 trips and 156 places==. I keep adding features while using it, such as prefecture stamps, a yearly look back, and \"On this day\", which brings up trips from around this time in past years.",
-      learning:
-        "I first built it as a static site edited by hand in a JSON file, but found that heavy updates do not last, so I rebuilt it with a database and an admin screen. I also dropped per-photo dates and places to keep it at the smallest form I could keep up. Learned that even a clean data model goes unused if entering data is a burden.",
+        "I had no place to look back on where I had been for trips, hikes, and food outings. I decided to make a record for myself that shows every place on a map at a glance and is fun just to browse.",
+      features: [
+        {
+          label: "Turn the pages",
+          text: "The cover turns like a book. Opening a trip sends a cat walking along the route, leaving footprints.",
+        },
+        {
+          label: "A picture diary for each trip",
+          text: "Each trip's illustration is assembled from its data, so even trips without photos make a full page.",
+        },
+        {
+          label: "Look back",
+          text: "Look back on past trips with prefecture stamps, a yearly look back, and \"On this day\", which brings up trips from around this time in past years.",
+        },
+      ],
+      techPoints: [
+        {
+          label: "Rebuilt to keep it going",
+          text: "I first built it as a static site edited by hand in a JSON file, but found that heavy updates do not last, so I rebuilt it with a database and an admin screen. Adding trips, searching for places, reordering stops, and adding photos all happen on screen. I also dropped per-photo dates and places to keep it at the smallest form I could keep up.",
+        },
+        {
+          label: "Running on Cloudflare",
+          text: "Next.js runs on Cloudflare Workers, with data in D1 through Drizzle and photos in R2. The map is drawn with MapLibre and OpenFreeMap, with colors generated from a palette definition.",
+        },
+        {
+          label: "No location leaks from photos",
+          text: "Photos are resized in the browser and stripped of location EXIF data before upload.",
+        },
+      ],
       url: "https://my-travel.ta-namisaki.workers.dev",
       status: "ongoing",
     },

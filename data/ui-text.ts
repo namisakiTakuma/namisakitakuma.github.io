@@ -27,10 +27,10 @@ export interface UiText {
   projectStatusOngoing: string;
   projectProblemLabel: string;
   projectTriggerLabel: string;
+  projectFeaturesLabel: string;
+  projectTechPointsLabel: string;
   projectRoleLabel: string;
-  projectImplementationLabel: string;
   projectResultLabel: string;
-  projectLearningLabel: string;
   projectTechLabel: string;
   projectMore: string;
   backToProjects: string;
@@ -75,10 +75,10 @@ export const uiTextByLocale: Record<Locale, UiText> = {
     projectStatusOngoing: "進行中",
     projectProblemLabel: "背景課題",
     projectTriggerLabel: "きっかけ",
+    projectFeaturesLabel: "できること",
+    projectTechPointsLabel: "技術の見どころ",
     projectRoleLabel: "担当",
-    projectImplementationLabel: "実装",
     projectResultLabel: "結果",
-    projectLearningLabel: "学び",
     projectTechLabel: "使った技術",
     projectMore: "詳しく見る",
     backToProjects: "Projects 一覧に戻る",
@@ -117,10 +117,10 @@ export const uiTextByLocale: Record<Locale, UiText> = {
     projectStatusOngoing: "In Progress",
     projectProblemLabel: "Problem",
     projectTriggerLabel: "How It Started",
+    projectFeaturesLabel: "What It Does",
+    projectTechPointsLabel: "Technical Highlights",
     projectRoleLabel: "My Role",
-    projectImplementationLabel: "Implementation",
     projectResultLabel: "Result",
-    projectLearningLabel: "Learning",
     projectTechLabel: "Tech Stack",
     projectMore: "Details",
     backToProjects: "Back to Projects",
