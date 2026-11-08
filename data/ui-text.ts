@@ -34,6 +34,7 @@ export interface UiText {
   projectTechLabel: string;
   projectMore: string;
   backToProjects: string;
+  projectAppPage: string;
   projectPrev: string;
   projectNext: string;
   publicationLinkFallback: string;
@@ -81,6 +82,7 @@ export const uiTextByLocale: Record<Locale, UiText> = {
     projectTechLabel: "使った技術",
     projectMore: "詳しく見る",
     backToProjects: "Projects 一覧に戻る",
+    projectAppPage: "紹介ページ",
     projectPrev: "前のプロジェクト",
     projectNext: "次のプロジェクト",
     publicationLinkFallback: "リンク",
@@ -122,6 +124,7 @@ export const uiTextByLocale: Record<Locale, UiText> = {
     projectTechLabel: "Tech Stack",
     projectMore: "Details",
     backToProjects: "Back to Projects",
+    projectAppPage: "Product page",
     projectPrev: "Previous project",
     projectNext: "Next project",
     publicationLinkFallback: "Link",
