@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import { MarkedText } from "@/components/marked-text";
 import { ProjectHighlight } from "@/components/project-highlight";
+import { ProjectVideo } from "@/components/project-video";
 import { Badge } from "@/components/ui/badge";
 import { projectsDataByLocale } from "@/data/projects";
 import { uiTextByLocale } from "@/data/ui-text";
@@ -97,6 +98,10 @@ export function ProjectDetail({ id }: { id: string }) {
           </div>
         )}
       </header>
+
+      {project.video && (
+        <ProjectVideo {...project.video} />
+      )}
 
       <div className="space-y-8 border-t border-neutral-200 pt-8">
         {details.map(({ label, text, items }, i) => (
