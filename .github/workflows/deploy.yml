@@ -9,6 +9,11 @@ permissions:
   pages: write
   id-token: write
 
+# 続けてマージしたときに公開どうしが重なって失敗しないよう、1つずつ順に流す
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest

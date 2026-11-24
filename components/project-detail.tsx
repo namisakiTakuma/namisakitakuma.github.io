@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import { MarkedText } from "@/components/marked-text";
 import { ProjectHighlight } from "@/components/project-highlight";
+import { ProjectVideo } from "@/components/project-video";
 import { Badge } from "@/components/ui/badge";
 import { projectsDataByLocale } from "@/data/projects";
 import { uiTextByLocale } from "@/data/ui-text";
@@ -22,8 +23,13 @@ export function ProjectDetail({ id }: { id: string }) {
   const prev = projects[index - 1];
   const next = projects[index + 1];
 
-  // 始まり → 担当 → 実装 → 結果 → 学び の順に並べる。始まりの見出しは、課題からなら「背景課題」、人の声からなら「きっかけ」
-  const details = [
+  // 始まり → できること → 技術の見どころ → 担当 → 結果 の順に並べ、中身の無い項目は出さない。
+  // 始まりの見出しは、課題からなら「背景課題」、人の声からなら「きっかけ」
+  const details: {
+    label: string;
+    text?: string;
+    items?: { label: string; text: string }[];
+  }[] = [
     {
       label:
         project.originKind === "problem"
@@ -31,11 +37,11 @@ export function ProjectDetail({ id }: { id: string }) {
           : t.projectTriggerLabel,
       text: project.origin,
     },
+    { label: t.projectFeaturesLabel, items: project.features },
+    { label: t.projectTechPointsLabel, items: project.techPoints },
     { label: t.projectRoleLabel, text: project.role },
-    { label: t.projectImplementationLabel, text: project.implementation },
     { label: t.projectResultLabel, text: project.result },
-    { label: t.projectLearningLabel, text: project.learning },
-  ];
+  ].filter((detail) => detail.text || detail.items?.length);
 
   return (
     <motion.article
@@ -92,8 +98,12 @@ export function ProjectDetail({ id }: { id: string }) {
         )}
       </header>
 
+      {project.video && (
+        <ProjectVideo {...project.video} />
+      )}
+
       <div className="space-y-8 border-t border-neutral-200 pt-8">
-        {details.map(({ label, text }, i) => (
+        {details.map(({ label, text, items }, i) => (
           <section
             key={label}
             className="grid gap-2 sm:grid-cols-[9rem_1fr] sm:gap-6"
@@ -104,9 +114,24 @@ export function ProjectDetail({ id }: { id: string }) {
               </span>
               {label}
             </h2>
-            <p className="text-[15px] text-neutral-700 leading-relaxed">
-              <MarkedText text={text} />
-            </p>
+            {items ? (
+              <dl className="space-y-4">
+                {items.map((item) => (
+                  <div key={item.label} className="space-y-1">
+                    <dt className="text-[15px] font-semibold text-neutral-900">
+                      {item.label}
+                    </dt>
+                    <dd className="text-[15px] text-neutral-700 leading-relaxed">
+                      <MarkedText text={item.text} />
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            ) : (
+              <p className="text-[15px] text-neutral-700 leading-relaxed">
+                <MarkedText text={text ?? ""} />
+              </p>
+            )}
           </section>
         ))}
         <section className="grid gap-2 sm:grid-cols-[9rem_1fr] sm:gap-6">
