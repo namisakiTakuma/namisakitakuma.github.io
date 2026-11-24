@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Database } from "lucide-react";
+import { ArrowRight, Database, ExternalLink } from "lucide-react";
 import { ProjectHighlight } from "@/components/project-highlight";
 import { RevealSection } from "@/components/sections/reveal-section";
 import { Badge } from "@/components/ui/badge";
@@ -14,12 +14,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { projectsDataByLocale } from "@/data/projects";
+import { hasDetail, projectsDataByLocale } from "@/data/projects";
 import { uiTextByLocale } from "@/data/ui-text";
 import { useLocale } from "@/lib/locale";
 
+const cardLinkClassName =
+  "group scroll-mt-24 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2";
+
 // ========== Projects セクション ==========
-// 一覧では要点だけを見せ、カードを押すと詳細ページ（app/projects/[id]）へ移る
+// 一覧では要点だけを見せ、カードを押すと詳細ページ（app/projects/[id]）へ移る。
+// 詳細ページを作らないものは、カードから外のページを新しいタブで開く
 export function ProjectsSection() {
   const { locale } = useLocale();
   const t = uiTextByLocale[locale];
@@ -31,14 +35,9 @@ export function ProjectsSection() {
         {t.projectTitle}
       </h2>
       <div className="grid gap-4 md:grid-cols-2">
-        {projectsData.map((project) => (
-          <Link
-            key={project.id}
-            // 詳細ページの「一覧に戻る」で、このカードの位置に戻ってくる
-            id={`project-${project.id}`}
-            href={`/projects/${project.id}`}
-            className="group scroll-mt-24 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2"
-          >
+        {projectsData.map((project) => {
+          const detail = hasDetail(project);
+          const card = (
             <Card className="flex h-full flex-col overflow-hidden transition-all group-hover:-translate-y-0.5 group-hover:border-neutral-300 group-hover:shadow-md">
               {/* 画像は 1200:630 にそろえてある。画像のないプロジェクトは、薄いアイコンだけの枠にする */}
               <div className="relative aspect-[40/21] overflow-hidden border-b border-neutral-200 bg-neutral-100">
@@ -87,13 +86,40 @@ export function ProjectsSection() {
                   ))}
                 </div>
                 <span className="ml-auto inline-flex items-center gap-1 text-sm font-medium text-neutral-500 group-hover:text-neutral-900 transition-colors">
-                  {t.projectMore}
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                  {detail ? t.projectMore : t.projectVisitSite}
+                  {detail ? (
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                  ) : (
+                    <ExternalLink className="h-4 w-4" />
+                  )}
                 </span>
               </CardFooter>
             </Card>
-          </Link>
-        ))}
+          );
+
+          // id は、詳細ページの「一覧に戻る」で、このカードの位置に戻ってくるためのもの
+          return detail ? (
+            <Link
+              key={project.id}
+              id={`project-${project.id}`}
+              href={`/projects/${project.id}`}
+              className={cardLinkClassName}
+            >
+              {card}
+            </Link>
+          ) : (
+            <a
+              key={project.id}
+              id={`project-${project.id}`}
+              href={project.link}
+              target="_blank"
+              rel="noreferrer"
+              className={cardLinkClassName}
+            >
+              {card}
+            </a>
+          );
+        })}
       </div>
     </RevealSection>
   );

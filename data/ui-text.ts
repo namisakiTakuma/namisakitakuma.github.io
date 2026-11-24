@@ -33,6 +33,8 @@ export interface UiText {
   projectResultLabel: string;
   projectTechLabel: string;
   projectMore: string;
+  // 詳細ページを作らず、外のページを直接開くカードの案内
+  projectVisitSite: string;
   backToProjects: string;
   projectAppPage: string;
   projectPrev: string;
@@ -83,6 +85,7 @@ export const uiTextByLocale: Record<Locale, UiText> = {
     projectResultLabel: "結果",
     projectTechLabel: "使った技術",
     projectMore: "詳しく見る",
+    projectVisitSite: "サイトを見る",
     backToProjects: "Projects 一覧に戻る",
     projectAppPage: "紹介ページ",
     projectPrev: "前のプロジェクト",
@@ -131,6 +134,7 @@ export const uiTextByLocale: Record<Locale, UiText> = {
     projectResultLabel: "Result",
     projectTechLabel: "Tech Stack",
     projectMore: "Details",
+    projectVisitSite: "Visit Site",
     backToProjects: "Back to Projects",
     projectAppPage: "Product page",
     projectPrev: "Previous project",

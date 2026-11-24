@@ -7,7 +7,7 @@ import { MarkedText } from "@/components/marked-text";
 import { ProjectHighlight } from "@/components/project-highlight";
 import { ProjectVideo } from "@/components/project-video";
 import { Badge } from "@/components/ui/badge";
-import { projectsDataByLocale } from "@/data/projects";
+import { hasDetail, projectsDataByLocale } from "@/data/projects";
 import { uiTextByLocale } from "@/data/ui-text";
 import { useLocale } from "@/lib/locale";
 
@@ -15,7 +15,8 @@ import { useLocale } from "@/lib/locale";
 export function ProjectDetail({ id }: { id: string }) {
   const { locale } = useLocale();
   const t = uiTextByLocale[locale];
-  const projects = projectsDataByLocale[locale];
+  // 前後のプロジェクトへのリンクも、詳細ページのあるものだけでたどる
+  const projects = projectsDataByLocale[locale].filter(hasDetail);
   const index = projects.findIndex((project) => project.id === id);
   if (index === -1) return null;
 
