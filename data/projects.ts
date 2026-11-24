@@ -1,4 +1,5 @@
-export interface ProjectItem {
+// 一覧のカードに出す項目。どのプロジェクトにも共通
+interface ProjectCardFields {
   id: string;
   title: string;
   category: string;
@@ -8,10 +9,15 @@ export interface ProjectItem {
   highlight?: string;
   // 一覧のカードの上に出す画像（1200:630 にそろえて public/images/projects/ に置く）。ないときは薄いアイコンだけの枠になる
   image?: { src: string; alt: string };
+  tags: string[];
+  status?: "ongoing";
+}
+
+// 詳細ページ（/projects/<id>/）を作るプロジェクト
+export interface ProjectItem extends ProjectCardFields {
   // 詳細ページの最初に出す短い動画（MP4）。自動では音なしで流れ、見た人が音を出せる。src は Cloudflare R2 の URL（サイト内の /videos/… でもよい）。
   // poster は読み込む前と動きを減らす設定のときに出す表紙で、public/images/projects/ に置く。width と height は動画の縦横で、縦長なら幅を狭めて出す。label は動画の中身の説明
   video?: { src: string; poster: string; width: number; height: number; label: string };
-  tags: string[];
   // 始まり方。課題から始まったものは「背景課題」、人の声から始まったものは「きっかけ」という見出しになる
   originKind: "problem" | "trigger";
   // 詳細ページは、作ったものの面白さと技術を見せる。始まり → できること → 技術の見どころ → 担当 → 結果 の順に出す。
@@ -28,12 +34,24 @@ export interface ProjectItem {
   url?: string;
   // 配っているプロダクトなら、data/apps.ts の slug。詳細ページに紹介ページ（/apps/<slug>/）へのリンクが出る
   app?: string;
-  status?: "ongoing";
+}
+
+// 詳細ページを作らず、カードから外のページを直接開くもの。企画や運営で関わり、作ったもの自体の技術は見せないときに使う
+export interface ProjectLinkItem extends ProjectCardFields {
+  // カードを押すと、新しいタブで開くページ
+  link: string;
+}
+
+export type ProjectEntry = ProjectItem | ProjectLinkItem;
+
+// 詳細ページがあるか
+export function hasDetail(project: ProjectEntry): project is ProjectItem {
+  return !("link" in project);
 }
 
 export type Locale = "ja" | "en";
 
-export const projectsDataByLocale: Record<Locale, ProjectItem[]> = {
+export const projectsDataByLocale: Record<Locale, ProjectEntry[]> = {
   ja: [
     {
       id: "picotouch",
