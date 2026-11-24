@@ -12,7 +12,7 @@ export function ArticlesSection() {
   const t = uiTextByLocale[locale];
 
   return (
-    <RevealSection id="articles" catTopic="articles">
+    <RevealSection id="articles">
       <h2 className="text-xl font-bold text-neutral-900 mb-4 border-b border-neutral-200 pb-2 inline-block">
         {t.articleTitle}
       </h2>

@@ -103,7 +103,6 @@ export function ProjectsSection() {
               key={project.id}
               id={`project-${project.id}`}
               href={`/projects/${project.id}`}
-              data-cat-topic={project.id}
               className={cardLinkClassName}
             >
               {card}
@@ -115,7 +114,6 @@ export function ProjectsSection() {
               href={project.link}
               target="_blank"
               rel="noreferrer"
-              data-cat-topic={project.id}
               className={cardLinkClassName}
             >
               {card}

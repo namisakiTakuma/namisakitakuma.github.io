@@ -16,7 +16,7 @@ export function ResearchSection() {
   const research = researchDataByLocale[locale];
 
   return (
-    <RevealSection id="research" catTopic="research">
+    <RevealSection id="research">
       <h2 className="text-xl font-bold text-neutral-900 mb-4 border-b border-neutral-200 pb-2 inline-block">
         {t.researchTitle}
       </h2>

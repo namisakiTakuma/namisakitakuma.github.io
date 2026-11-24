@@ -51,7 +51,7 @@ body {
 }
 
 /* トップから入ったときの幕（components/opening-intro.tsx）
-   0.2秒〜 「いつも考えています。」を左から筆で書くように出す → 1.2秒〜 アイコンと名前 → 1.6秒〜 右上の猫がのぞく
+   0.2秒〜 「いつも考えています。」を左から筆で書くように出す → 1.2秒〜 アイコンと名前
    → 2.4秒〜 幕が上がってサイトになる */
 .opening-intro {
   position: fixed;
@@ -105,12 +105,6 @@ body {
   animation: intro-fade 0.5s ease-out 1.2s forwards;
 }
 
-/* 猫の頭は画面の上の外にいて、ばねのように少し行き過ぎながら下りてくる */
-.opening-intro__cat-head {
-  transform: translateY(-48px);
-  animation: intro-peek 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 1.6s forwards;
-}
-
 @keyframes intro-write {
   to {
     -webkit-mask-position: 0 0;
@@ -126,12 +120,6 @@ body {
   to {
     opacity: 1;
     transform: none;
-  }
-}
-
-@keyframes intro-peek {
-  to {
-    transform: translateY(0);
   }
 }
 

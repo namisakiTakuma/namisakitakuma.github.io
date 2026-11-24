@@ -48,6 +48,8 @@ export interface UiText {
   openMenu: string;
   closeMenu: string;
   email: { copy: string; copied: string; hint: string };
+  // 見つからないページ（app/not-found.tsx）
+  notFound: { title: string; text: string; back: string; imageAlt: string };
 }
 
 const nav: UiText["nav"] = [
@@ -102,6 +104,12 @@ export const uiTextByLocale: Record<Locale, UiText> = {
       copied: "コピーしました",
       hint: "🐾 を @ に置き換えてください",
     },
+    notFound: {
+      title: "ページが見つかりませんでした",
+      text: "地図を広げて探してみましたが、ここには何もないようです。",
+      back: "トップに戻る",
+      imageAlt: "地図を広げて、のぞきこんでいる猫",
+    },
   },
   en: {
     nav,
@@ -145,6 +153,12 @@ export const uiTextByLocale: Record<Locale, UiText> = {
       copy: "Copy",
       copied: "Copied",
       hint: "Replace 🐾 with @",
+    },
+    notFound: {
+      title: "Page not found",
+      text: "We spread out the map and looked, but there's nothing here.",
+      back: "Back to top",
+      imageAlt: "A cat peering at an unfolded map",
     },
   },
 };
