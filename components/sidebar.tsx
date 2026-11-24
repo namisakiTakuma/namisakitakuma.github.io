@@ -45,9 +45,6 @@ export function Sidebar({
           <h1 className="text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl">
             並崎 功真
           </h1>
-          <p className="mt-3 text-lg font-semibold text-neutral-800">
-            {profileData.tagline}
-          </p>
           <p className="mt-4 text-base text-neutral-600 leading-relaxed font-medium whitespace-pre-line [word-break:auto-phrase]">
             {t.profileHeadline}
           </p>

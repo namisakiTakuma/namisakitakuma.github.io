@@ -1,5 +1,4 @@
 export interface ProfileData {
-  tagline: string;
   // アイコン（profileIcon）の代替テキスト
   iconAlt: string;
   about: string;
@@ -26,7 +25,6 @@ export const profileIconLoop = "/images/profile-icon-loop.svg";
 
 export const profileDataByLocale: Record<Locale, ProfileData> = {
   ja: {
-    tagline: "いつも考えています。",
     iconAlt: "並崎 功真のアイコン（紺色の猫と、頭に座るハムスターのイラスト）",
     about: `私は考えることが好きです。
 どうすればもっと面白くできるのか。どうすればもっと伝わりやすくなるのか。どうすればもっと皆の負担が減るのか。ふとしたときにも考えてしまいます。
@@ -45,7 +43,6 @@ export const profileDataByLocale: Record<Locale, ProfileData> = {
     ],
   },
   en: {
-    tagline: "Always thinking.",
     iconAlt: "Takuma Namisaki's icon, an illustration of a navy cat with a hamster sitting on its head",
     about: `I love to think.
 How can this be more fun? How can it be easier to understand? How can it take more of the burden off everyone? I find myself thinking about these questions even in idle moments.
