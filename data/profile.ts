@@ -16,13 +16,18 @@ export const contactEmail = {
   domain: "gmail.com",
 };
 
-// 顔写真の代わりのアイコン。本人が描いた、ペンを持った猫のイラストの顔のあたりを切り抜いたもの
+// 顔写真の代わりのアイコン。本人のキャラクター（紺の猫と、頭に座る相棒のハムスター）。
+// 絵はこのサイトの外で作っていて、色と線をそろえる仕組みもそちらにある。切り取り方や動きを変えたいときは、絵を作る側に頼む
+// （ここでは色を変えない・絵を足さない・縦横比を変えない・回転や反転をしない）
+// 静止画は、動く版の最初のコマと同じ絵（ハムスターが跳ぶ分の余白をとって、広めに切り取ってある）
 export const profileIcon = "/images/profile-icon.webp";
+// 同じアイコンの動く版（9秒で1周、SVG の中の SMIL と CSS で動く）
+export const profileIconLoop = "/images/profile-icon-loop.svg";
 
 export const profileDataByLocale: Record<Locale, ProfileData> = {
   ja: {
     tagline: "いつも考えています。",
-    iconAlt: "並崎 功真のアイコン（ペンを持った猫のイラスト）",
+    iconAlt: "並崎 功真のアイコン（紺色の猫と、頭に座るハムスターのイラスト）",
     about: `私は考えることが好きです。
 どうすればもっと面白くできるのか。どうすればもっと伝わりやすくなるのか。どうすればもっと皆の負担が減るのか。ふとしたときにも考えてしまいます。
 「もっとよくできる」に気づき、考え抜き、動いて、形になるまでもっていく。それが私の強みです。
@@ -41,7 +46,7 @@ export const profileDataByLocale: Record<Locale, ProfileData> = {
   },
   en: {
     tagline: "Always thinking.",
-    iconAlt: "Takuma Namisaki's icon, an illustrated cat holding a pen",
+    iconAlt: "Takuma Namisaki's icon, an illustration of a navy cat with a hamster sitting on its head",
     about: `I love to think.
 How can this be more fun? How can it be easier to understand? How can it take more of the burden off everyone? I find myself thinking about these questions even in idle moments.
 Noticing where things could be better, thinking them through, taking action, and carrying them all the way to a finished result: that is my strength.

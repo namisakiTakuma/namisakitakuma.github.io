@@ -37,7 +37,6 @@ export function ProjectsSection() {
             // 詳細ページの「一覧に戻る」で、このカードの位置に戻ってくる
             id={`project-${project.id}`}
             href={`/projects/${project.id}`}
-            data-cat-topic={project.id}
             className="group scroll-mt-24 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2"
           >
             <Card className="flex h-full flex-col overflow-hidden transition-all group-hover:-translate-y-0.5 group-hover:border-neutral-300 group-hover:shadow-md">
