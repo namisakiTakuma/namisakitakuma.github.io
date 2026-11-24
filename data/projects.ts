@@ -204,6 +204,20 @@ export const projectsDataByLocale: Record<Locale, ProjectEntry[]> = {
       url: "https://bingo.cmiru.com",
     },
     {
+      id: "pictogram-workshop",
+      title: "伝わるピクトグラムをデザインしよう！（小学生向けワークショップ）",
+      category: "イベント出展 / ワークショップ / 教育",
+      summary:
+        "出された状況を、形と色だけで伝えるピクトグラムを作る、小学生向けのワークショップ。企画し、当日は講師として進めた。",
+      highlight: "==堺市主催の探究イベントに出展==、作品は特設サイトで公開",
+      image: {
+        src: "/images/projects/pictogram-workshop.webp",
+        alt: "作品展示特設サイトの表紙。「これ、どんな状況!? 伝わるピクトグラムをデザインしよう！」の題字と、色とりどりの丸・三角・四角",
+      },
+      tags: ["ワークショップ企画", "講師", "ピクトグラム"],
+      link: "https://pictogram.cmiru.com/",
+    },
+    {
       id: "memo-sync",
       title: "ちょこメモ（Chrome拡張機能）",
       category: "個人開発 / ブラウザ拡張 / 生産性",
@@ -472,6 +486,21 @@ export const projectsDataByLocale: Record<Locale, ProjectEntry[]> = {
       role:
         "As a CMIRU product, took part in planning and service design together with the development team.",
       url: "https://bingo.cmiru.com",
+    },
+    {
+      id: "pictogram-workshop",
+      title: "Let's Design Pictograms That Communicate! (Workshop for Kids)",
+      category: "Event / Workshop / Education",
+      summary:
+        "A workshop where elementary school students design pictograms that convey a given situation using only shapes and colors. Planned it and led the sessions as the instructor.",
+      highlight:
+        "==Exhibited at a summer inquiry event hosted by Sakai City==; the kids' works are shown on a special website",
+      image: {
+        src: "/images/projects/pictogram-workshop.webp",
+        alt: "Cover of the exhibition website, with the Japanese title \"Let's design pictograms that communicate!\" and colorful circles, triangles and squares",
+      },
+      tags: ["Workshop Planning", "Instructor", "Pictograms"],
+      link: "https://pictogram.cmiru.com/",
     },
     {
       id: "memo-sync",
