@@ -20,7 +20,7 @@ export function PublicationsSection() {
   const publicationsData = publicationsDataByLocale[locale];
 
   return (
-    <RevealSection id="publications" catTopic="publications">
+    <RevealSection id="publications">
       <h2 className="text-xl font-bold text-neutral-900 mb-4 border-b border-neutral-200 pb-2 inline-block">
         {t.publicationTitle}
       </h2>

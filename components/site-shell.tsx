@@ -3,16 +3,13 @@
 import { useCallback, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { HidingCat } from "@/components/hiding-cat";
 import { MobileMenu } from "@/components/mobile-menu";
 import { OpeningIntro } from "@/components/opening-intro";
 import { Sidebar } from "@/components/sidebar";
 import { SiteFooter } from "@/components/site-footer";
-import { useLocale } from "@/lib/locale";
 
-// どのページにも共通の枠：左の欄、本文の列、右上の猫、スマホのメニュー
+// どのページにも共通の枠：左の欄、本文の列、スマホのメニュー
 export function SiteShell({ children }: { children: React.ReactNode }) {
-  const { locale } = useLocale();
   const isHome = usePathname() === "/";
   // トップから入ったときだけ、最初に幕を出す（ほかのページからトップへ移ったときは出さない）
   const [showIntro, setShowIntro] = useState(isHome);
@@ -43,13 +40,6 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
           <SiteFooter />
         </main>
       </div>
-
-      {/* ================= 右上に隠れている猫 ================= */}
-      {/* PCでは右カラムの右端にそろえる */}
-      <HidingCat
-        locale={locale}
-        className="fixed top-0 z-30 right-[calc(max(0px,(100vw_-_72rem)_/_2)_+_1.5rem)]"
-      />
 
       <MobileMenu />
 

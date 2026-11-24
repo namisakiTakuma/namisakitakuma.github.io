@@ -39,7 +39,6 @@ export function ProjectDetail({ id }: { id: string }) {
 
   return (
     <motion.article
-      data-cat-topic={project.id}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}

@@ -15,7 +15,7 @@ export function CareerSection() {
   const careerData = careerDataByLocale[locale];
 
   return (
-    <RevealSection id="career" catTopic="career">
+    <RevealSection id="career">
       <h2 className="text-xl font-bold text-neutral-900 mb-6 border-b border-neutral-200 pb-2 inline-block">
         {t.careerTitle}
       </h2>
