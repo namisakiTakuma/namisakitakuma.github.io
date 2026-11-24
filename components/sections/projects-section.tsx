@@ -41,7 +41,7 @@ export function ProjectsSection() {
             className="group scroll-mt-24 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2"
           >
             <Card className="flex h-full flex-col overflow-hidden transition-all group-hover:-translate-y-0.5 group-hover:border-neutral-300 group-hover:shadow-md">
-              {/* 画像は 1200:630 にそろえてある。画像のないプロジェクト（今は構成図待ちの業務ナレッジRAG）は、薄いアイコンだけの枠にする */}
+              {/* 画像は 1200:630 にそろえてある。画像のないプロジェクトは、薄いアイコンだけの枠にする */}
               <div className="relative aspect-[40/21] overflow-hidden border-b border-neutral-200 bg-neutral-100">
                 {project.image ? (
                   <Image
