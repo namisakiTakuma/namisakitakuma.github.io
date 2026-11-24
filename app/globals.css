@@ -57,7 +57,8 @@ body {
    ・読み込めた（ready）: 絵が止まって少しおいた 5.1 秒で上げる
    ・読み込めなかった（failed）: すぐ上げる
    ・印がつかない（JavaScript が動かないなど）: 7 秒で上げる
-   印がついたときに動きの名前を変えて、その時点から数え直す */
+   印がついたときに動きの名前を変えて、その時点から数え直す。
+   上の時刻は幕が「終わり始める」時刻。JavaScript が動いていれば、上げる代わりにアイコンへ縮めて終わる */
 .opening-intro {
   position: fixed;
   inset: 0;
@@ -76,6 +77,11 @@ html[data-intro-art="failed"] .opening-intro,
 /* クリックやキー操作で、待たずに幕を上げる（上の指定より後に書いて、こちらを効かせる） */
 html .opening-intro.is-skipping {
   animation: intro-lift-now 0.45s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+}
+
+/* JavaScript が動いていれば、幕が上がり始めた瞬間に止め、絵をサイドバーのアイコンへ縮める（components/opening-intro.tsx） */
+html .opening-intro.is-shrinking {
+  animation: none;
 }
 
 /* 絵の置き方（絵を作る側の指定）。猫とハムスターは、絵のまん中の幅 1700 に収まる。

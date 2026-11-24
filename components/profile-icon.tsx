@@ -103,6 +103,8 @@ export function ProfileIcon({
   return (
     <span
       ref={wrapperRef}
+      // トップの幕の絵が、最後にここへ縮んで入る（components/opening-intro.tsx）
+      data-profile-icon=""
       role="img"
       aria-label={alt}
       className={cn(
