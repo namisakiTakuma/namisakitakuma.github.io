@@ -32,7 +32,10 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             </Link>
           </header>
         )}
-        <Sidebar className={isHome ? undefined : "hidden lg:block"} />
+        <Sidebar
+          className={isHome ? undefined : "hidden lg:block"}
+          introShowing={showIntro}
+        />
 
         {/* ================= メインコンテンツ (右カラム) ================= */}
         <main className="min-w-0 px-6 lg:px-12 py-12 lg:py-24 space-y-24">
