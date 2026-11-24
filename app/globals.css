@@ -51,79 +51,54 @@ body {
 }
 
 /* トップから入ったときの幕（components/opening-intro.tsx）
-   0.2秒〜 「いつも考えています。」を左から筆で書くように出す → 1.2秒〜 アイコンと名前
-   → 2.4秒〜 幕が上がってサイトになる */
+   動く絵（public/images/cat/opening.svg）は 4.6 秒で止まる。0.3 秒〜 ハムスターが左から転がってきて座り、
+   3.35 秒ごろ下から猫が一気に出てきて、ハムスターが頭の上に乗る。
+   絵は読み込んだときから動くので、幕が上がるのも読み込んでから数える（app/layout.tsx のスクリプトが html に data-intro-art をつける）。
+   ・読み込めた（ready）: 絵が止まって少しおいた 5.1 秒で上げる
+   ・読み込めなかった（failed）: すぐ上げる
+   ・印がつかない（JavaScript が動かないなど）: 7 秒で上げる
+   印がついたときに動きの名前を変えて、その時点から数え直す */
 .opening-intro {
   position: fixed;
   inset: 0;
   z-index: 60;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0 1rem;
+  overflow: hidden;
   background-color: #fcfbf7;
-  color: var(--foreground);
   cursor: pointer;
-  animation: intro-lift 0.6s cubic-bezier(0.7, 0, 0.3, 1) 2.4s forwards;
+  animation: intro-lift 0.6s cubic-bezier(0.7, 0, 0.3, 1) 7s forwards;
 }
 
-/* クリックやキー操作で、待たずに幕を上げる（名前を変えて、いまの時点から動かし直す） */
-.opening-intro.is-skipping {
+html[data-intro-art="ready"] .opening-intro {
+  animation: intro-lift-after-art 0.6s cubic-bezier(0.7, 0, 0.3, 1) 5.1s forwards;
+}
+
+html[data-intro-art="failed"] .opening-intro,
+/* クリックやキー操作で、待たずに幕を上げる（上の指定より後に書いて、こちらを効かせる） */
+html .opening-intro.is-skipping {
   animation: intro-lift-now 0.45s cubic-bezier(0.7, 0, 0.3, 1) forwards;
 }
 
-/* 横に長いマスクを左へずらして、文字を左から少しずつ見せる。境目をぼかして、墨がにじむ感じにする */
-.opening-intro__copy {
-  font-family: var(--font-brush), serif;
-  font-size: clamp(1.75rem, 7vw, 4rem);
-  letter-spacing: 0.12em;
-  /* letter-spacing で右にできる余白とつり合わせて、真ん中にそろえる */
-  padding-left: 0.12em;
-  white-space: nowrap;
-  -webkit-mask-image: linear-gradient(to right, #000 46%, transparent 54%);
-  mask-image: linear-gradient(to right, #000 46%, transparent 54%);
-  -webkit-mask-size: 220% 100%;
-  mask-size: 220% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: 100% 0;
-  mask-position: 100% 0;
-  animation: intro-write 1.2s cubic-bezier(0.45, 0, 0.25, 1) 0.2s forwards;
-}
-
-.opening-intro__name {
-  display: flex;
-  align-items: center;
-  gap: 0.6em;
-  margin-top: 1.25rem;
-  font-family: var(--font-brush), serif;
-  font-size: clamp(1rem, 2.4vw, 1.25rem);
-  letter-spacing: 0.2em;
-  padding-left: 0.2em;
-  opacity: 0;
-  animation: intro-fade 0.5s ease-out 1.2s forwards;
-}
-
-@keyframes intro-write {
-  to {
-    -webkit-mask-position: 0 0;
-    mask-position: 0 0;
-  }
-}
-
-@keyframes intro-fade {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+/* 絵の置き方（絵を作る側の指定）。猫とハムスターは、絵のまん中の幅 1700 に収まる。
+   高さは「画面の高さ」と「画面の幅 × 1270 ÷ 1700」の小さい方。下の端を画面の下に合わせ、左右のはみ出しは切る */
+.opening-intro__art {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  height: min(100dvh, calc(100vw * 1270 / 1700));
+  width: auto;
+  max-width: none;
+  transform: translateX(-50%);
+  pointer-events: none;
+  user-select: none;
 }
 
 @keyframes intro-lift {
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes intro-lift-after-art {
   to {
     transform: translateY(-100%);
   }
@@ -135,15 +110,10 @@ body {
   }
 }
 
-/* 同じタブでの2回目以降（app/layout.tsx のスクリプトが印をつける）と、動きを減らす設定のときは出さない */
+/* 同じタブでの2回目以降と、裏のタブで開かれたとき（app/layout.tsx のスクリプトが印をつける）、
+   動きを減らす設定のときは出さない */
 html[data-intro="seen"] .opening-intro {
   display: none;
-}
-
-/* 裏のタブで開かれたときは、表に出るまで止めておく */
-html[data-intro="paused"] .opening-intro,
-html[data-intro="paused"] .opening-intro * {
-  animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {

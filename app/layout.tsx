@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter, Geist_Mono } from "next/font/google";
-import localFont from "next/font/local";
 import "./globals.css";
 import { SiteShell } from "@/components/site-shell";
 import { LocaleProvider } from "@/lib/locale";
@@ -15,17 +14,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// トップの幕（components/opening-intro.tsx）の筆文字。「いつも考えています。並崎功真」の字だけを入れた
-// Yuji Syuku（SIL Open Font License。app/fonts/YujiSyuku-OFL.txt）
-const brush = localFont({
-  src: "./fonts/YujiSyuku-intro.woff2",
-  variable: "--font-brush",
-  display: "block",
-});
-
 // トップの幕は、同じタブでは最初の1回だけ出す。幕が描かれる前に印をつけ、2回目以降は CSS で消す。
-// 裏のタブで開かれたときは、表に出るまで幕の動きを止めておく
-const introScript = `try{var r=document.documentElement;if(sessionStorage.getItem("intro-seen"))r.dataset.intro="seen";else{sessionStorage.setItem("intro-seen","1");if(document.hidden){r.dataset.intro="paused";document.addEventListener("visibilitychange",function f(){if(!document.hidden){delete r.dataset.intro;document.removeEventListener("visibilitychange",f)}})}}}catch(e){}`;
+// 裏のタブで開かれたときも出さない（絵が見えないうちに動き終わってしまうため。次にそのタブで開き直せば出る）。
+// 幕の絵（.opening-intro__art）を読み込めたら html に data-intro-art をつけ、幕が上がる時刻をそこから数える
+const introScript = `try{var r=document.documentElement;if(sessionStorage.getItem("intro-seen")||document.hidden)r.dataset.intro="seen";else{sessionStorage.setItem("intro-seen","1");var f=function(e){var t=e.target;if(t&&t.classList&&t.classList.contains("opening-intro__art")){r.dataset.introArt=e.type==="load"?"ready":"failed";document.removeEventListener("load",f,true);document.removeEventListener("error",f,true)}};document.addEventListener("load",f,true);document.addEventListener("error",f,true)}}catch(e){}`;
 
 export const metadata: Metadata = {
   // 詳細ページでは「プロジェクト名 | Takuma | Portfolio」になる
@@ -47,7 +39,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body
-        className={`${inter.variable} ${geistMono.variable} ${brush.variable} antialiased selection:bg-blue-500/30 selection:text-blue-200`}
+        className={`${inter.variable} ${geistMono.variable} antialiased selection:bg-blue-500/30 selection:text-blue-200`}
       >
         <script dangerouslySetInnerHTML={{ __html: introScript }} />
         <div className="relative min-h-screen">

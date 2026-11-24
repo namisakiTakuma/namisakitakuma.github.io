@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { profileIcon } from "@/data/profile";
 import { cn } from "@/lib/utils";
 
-// トップから入ったときに一度だけ流す幕。表紙のように「いつも考えています。」を筆で書くように出し、
-// アイコンと名前を添えてから、幕が上がってサイトになる。
-// 動きは CSS（app/globals.css の .opening-intro）なので、JavaScript の読み込みを待たずに始まる。
-// 同じタブでの2回目以降と、動きを減らす設定のときは出さない（app/layout.tsx のスクリプトと CSS で、描く前に消す）。
+// トップから入ったときに一度だけ流す幕。何も見えないところに、ハムスターが左から転がってきて座り、
+// 下から猫が一気に出てくる。絵が止まったら、幕が上がってサイトになる。
+// 絵（public/images/cat/opening.svg）は SVG の中の SMIL で動き、読み込んだときから動き始める。
+// 幕が上がる時刻は、絵を読み込んでから数える（app/layout.tsx のスクリプトと app/globals.css の .opening-intro）。
+// 同じタブでの2回目以降、裏のタブで開かれたとき、動きを減らす設定のときは出さない（描く前に消す）。
 
 export function OpeningIntro({ onDone }: { onDone: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -52,22 +51,20 @@ export function OpeningIntro({ onDone }: { onDone: () => void }) {
       className={cn("opening-intro", skipping && "is-skipping")}
       onClick={() => setSkipping(true)}
       onAnimationEnd={(e) => {
-        // 中の文字の動きではなく、幕が上がりきったときだけ
+        // 幕が上がりきったときだけ
         if (e.target === e.currentTarget) onDone();
       }}
     >
-      <p className="opening-intro__copy">いつも考えています。</p>
-      <div className="opening-intro__name">
-        <Image
-          src={profileIcon}
-          alt=""
-          width={40}
-          height={40}
-          loading="eager"
-          className="h-10 w-10 rounded-full border border-neutral-200 bg-white"
-        />
-        並崎 功真
-      </div>
+      {/* 動く SVG は next/image を通さず、そのまま置く（大きさは CSS で決める） */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/images/cat/opening.svg"
+        alt=""
+        width={5100}
+        height={1270}
+        fetchPriority="high"
+        className="opening-intro__art"
+      />
     </div>
   );
 }
