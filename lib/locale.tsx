@@ -1,26 +1,48 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect } from "react";
 import type { Locale } from "@/data/profile";
 
-// 表示言語（JP / EN）。ページを移動しても切り替えた言語のままになるよう、レイアウトで持つ
+// 表示言語（JP / EN）は URL で決まる。日本語は今までどおり / から、英語は /en/ から始まる。
+// 言語ごとのレイアウト（app/(ja)/layout.tsx と app/en/layout.tsx）が、ここに言語を渡す
 
-interface LocaleContextValue {
+const LocaleContext = createContext<Locale | null>(null);
+
+export function LocaleProvider({
+  locale,
+  children,
+}: {
   locale: Locale;
-  setLocale: (locale: Locale) => void;
+  children: React.ReactNode;
+}) {
+  // ページの言語を html にも伝える（読み上げなどのため）。最初の表示では app/layout.tsx のスクリプトが先につけている
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
+
+  return <LocaleContext value={locale}>{children}</LocaleContext>;
 }
 
-const LocaleContext = createContext<LocaleContextValue | null>(null);
-
-export function LocaleProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocale] = useState<Locale>("ja");
-  return <LocaleContext value={{ locale, setLocale }}>{children}</LocaleContext>;
-}
-
-export function useLocale(): LocaleContextValue {
-  const value = useContext(LocaleContext);
-  if (!value) {
+export function useLocale(): { locale: Locale } {
+  const locale = useContext(LocaleContext);
+  if (!locale) {
     throw new Error("useLocale は LocaleProvider の中で使ってください");
   }
-  return value;
+  return { locale };
+}
+
+// サイトの中のリンク先を、その言語の URL にする。path は / から始める（例: "/projects/picotouch", "/#about"）
+export function localeHref(locale: Locale, path: string): string {
+  return locale === "ja" ? path : `/en${path}`;
+}
+
+// URL の言語（/en または /en/〜 なら英語）。app/layout.tsx のスクリプトも同じ見方をしている
+export function localeOfPath(pathname: string): Locale {
+  return pathname === "/en" || pathname.startsWith("/en/") ? "en" : "ja";
+}
+
+// 今のページの、言語を除いた場所（/en/projects/picotouch → /projects/picotouch）
+export function stripLocale(pathname: string): string {
+  if (localeOfPath(pathname) === "ja") return pathname;
+  return pathname.slice(3) || "/";
 }

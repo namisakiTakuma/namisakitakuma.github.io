@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/card";
 import { hasDetail, projectsDataByLocale } from "@/data/projects";
 import { uiTextByLocale } from "@/data/ui-text";
-import { useLocale } from "@/lib/locale";
+import { localeHref, useLocale } from "@/lib/locale";
 
 const cardLinkClassName =
   "group scroll-mt-24 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2";
@@ -102,7 +102,7 @@ export function ProjectsSection() {
             <Link
               key={project.id}
               id={`project-${project.id}`}
-              href={`/projects/${project.id}`}
+              href={localeHref(locale, `/projects/${project.id}`)}
               className={cardLinkClassName}
             >
               {card}

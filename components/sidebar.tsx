@@ -7,7 +7,8 @@ import { EmailContact } from "@/components/email-contact";
 import { ProfileIcon } from "@/components/profile-icon";
 import { contactEmail, profileDataByLocale } from "@/data/profile";
 import { uiTextByLocale } from "@/data/ui-text";
-import { useLocale } from "@/lib/locale";
+import { LocaleSwitch } from "@/components/locale-switch";
+import { localeHref, useLocale } from "@/lib/locale";
 import { cn } from "@/lib/utils";
 
 // ================= サイドバー (左カラム) =================
@@ -19,7 +20,7 @@ export function Sidebar({
   className?: string;
   introShowing?: boolean;
 }) {
-  const { locale, setLocale } = useLocale();
+  const { locale } = useLocale();
   const t = uiTextByLocale[locale];
   const profileData = profileDataByLocale[locale];
 
@@ -42,26 +43,16 @@ export function Sidebar({
             hold={introShowing}
             className="mb-5 h-24 w-24"
           />
-          <h1 className="text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl">
+          <h1
+            lang="ja"
+            className="text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl"
+          >
             並崎 功真
           </h1>
           <p className="mt-4 text-base text-neutral-600 leading-relaxed font-medium whitespace-pre-line [word-break:auto-phrase]">
             {t.profileHeadline}
           </p>
-          <div className="mt-4 inline-flex rounded-md border border-neutral-200 p-1 bg-white">
-            <button
-              onClick={() => setLocale("ja")}
-              className={`px-3 py-1.5 text-xs font-semibold rounded ${locale === "ja" ? "bg-neutral-900 text-white" : "text-neutral-600 hover:text-neutral-900"}`}
-            >
-              JP
-            </button>
-            <button
-              onClick={() => setLocale("en")}
-              className={`px-3 py-1.5 text-xs font-semibold rounded ${locale === "en" ? "bg-neutral-900 text-white" : "text-neutral-600 hover:text-neutral-900"}`}
-            >
-              EN
-            </button>
-          </div>
+          <LocaleSwitch variant="sidebar" />
         </div>
 
         <div className="flex flex-col gap-2 text-sm text-neutral-500">
@@ -92,7 +83,7 @@ export function Sidebar({
           {t.nav.map((link) => (
             <Link
               key={link.name}
-              href={link.href}
+              href={localeHref(locale, link.href)}
               className="group flex items-center text-sm font-medium text-neutral-500 hover:text-neutral-900 transition-colors w-fit"
             >
               <span className="w-8 h-px bg-neutral-300 mr-4 group-hover:w-12 group-hover:bg-neutral-900 transition-all duration-300"></span>

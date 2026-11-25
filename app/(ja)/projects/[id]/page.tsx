@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 import { ProjectDetail } from "@/components/project-detail";
-import { hasDetail, projectsDataByLocale } from "@/data/projects";
+import { projectMetadata, projectStaticParams } from "@/lib/page-metadata";
 
-// 静的に書き出すので、詳細ページはプロジェクトの数だけ前もって作る（外のページを直接開くものは作らない）
+// プロジェクトの詳細ページ（日本語）。英語は app/en/projects/[id]/page.tsx
 export const dynamicParams = false;
 
-const projects = projectsDataByLocale.ja.filter(hasDetail);
-
 export function generateStaticParams() {
-  return projects.map((project) => ({ id: project.id }));
+  return projectStaticParams();
 }
 
 interface ProjectPageProps {
@@ -19,8 +17,7 @@ export async function generateMetadata({
   params,
 }: ProjectPageProps): Promise<Metadata> {
   const { id } = await params;
-  const project = projects.find((p) => p.id === id);
-  return project ? { title: project.title, description: project.summary } : {};
+  return projectMetadata("ja", id);
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
