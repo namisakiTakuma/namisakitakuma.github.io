@@ -10,9 +10,10 @@ import { cn } from "@/lib/utils";
 // CSS だけでは幕が上に上がって終わる。JavaScript が動いていれば、上がり始めた瞬間に止めて、アイコンへ縮める動きに替える。
 // 同じタブでの2回目以降、裏のタブで開かれたとき、動きを減らす設定のときは出さない（描く前に消す）。
 
-// 猫の両目の中点と間隔。幕の最後の絵は絵の幅・高さに対する割合、アイコンはアイコンの幅に対する割合（どちらも画面で測った値）。
+// 猫の両目の中点と間隔。幕の最後の絵は絵の幅・高さに対する割合（絵を作る側の値。5100×1970 の絵で、中点 (2563, 1047)、間隔 619）、
+// アイコンはアイコンの幅に対する割合（画面で測った値）。
 // この2つが重なるように縮めると、最後の絵とアイコンの猫がちょうど重なる
-const ART_EYES = { x: 0.5026, y: 0.8246, gap: 0.1214 };
+const ART_EYES = { x: 2563 / 5100, y: 1047 / 1970, gap: 619 / 5100 };
 const ICON_EYES = { x: 0.5086, y: 0.666, gap: 0.4251 };
 const SHRINK_MS = 900;
 const SWAP_MS = 200;
@@ -46,6 +47,9 @@ async function shrinkIntoIcon(
   const cx = px + (iconLeft + size / 2 - qx) / scale;
   const cy = py + (iconTop + size / 2 - qy) / scale;
   const radius = size / 2 / scale;
+  // 切り抜きの丸は、丸の下の端が絵の下の端に来る大きさから始める。絵の下の端は猫の胴の途中で平らに切れているので、
+  // 縮んでいく途中でそこが見えないようにする（幕に見えている猫とハムスターは、この丸の中に収まっている）
+  const startRadius = h - cy;
 
   // 動いている間は本物のアイコンを隠し、二重に見えないようにする
   icon.style.opacity = "0";
@@ -54,7 +58,7 @@ async function shrinkIntoIcon(
     [
       {
         transform: `translate(${-w / 2}px, 0px) scale(1)`,
-        clipPath: `circle(${Math.hypot(w, h)}px at ${cx}px ${cy}px)`,
+        clipPath: `circle(${startRadius}px at ${cx}px ${cy}px)`,
       },
       {
         transform: `translate(${qx - left - scale * px}px, ${qy - top - scale * py}px) scale(${scale})`,
@@ -174,7 +178,7 @@ export function OpeningIntro({ onDone }: { onDone: () => void }) {
         src="/images/cat/opening.svg"
         alt=""
         width={5100}
-        height={1270}
+        height={1970}
         fetchPriority="high"
         className="opening-intro__art"
       />
