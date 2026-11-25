@@ -11,7 +11,7 @@ import { appsContactEmail, findApp } from "@/data/apps";
 // 文の正本は隣の policy.md。直すときは policy.md を直す（{{contact}} が問い合わせ先のメールアドレスになる）
 const app = findApp("chocomemo");
 const policy = readFileSync(
-  path.join(process.cwd(), "app/apps/chocomemo/privacy/policy.md"),
+  path.join(process.cwd(), "app/(ja)/apps/chocomemo/privacy/policy.md"),
   "utf8",
 );
 

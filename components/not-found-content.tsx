@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { uiTextByLocale } from "@/data/ui-text";
-import { useLocale } from "@/lib/locale";
+import { localeHref, useLocale } from "@/lib/locale";
 
 // 見つからないページの中身（app/not-found.tsx から使う）。地図を広げて探している猫を出す
 export function NotFoundContent() {
@@ -25,7 +25,7 @@ export function NotFoundContent() {
       </h1>
       <p className="text-base leading-relaxed text-neutral-700">{t.text}</p>
       <Link
-        href="/"
+        href={localeHref(locale, "/")}
         className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500 transition-colors hover:text-neutral-900"
       >
         <ArrowLeft className="h-4 w-4" />

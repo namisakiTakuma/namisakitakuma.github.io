@@ -5,21 +5,23 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { uiTextByLocale } from "@/data/ui-text";
-import { useLocale } from "@/lib/locale";
+import { LocaleSwitch } from "@/components/locale-switch";
+import { localeHref, useLocale } from "@/lib/locale";
 
 // ================= モバイル向け フローティング・ハンバーガーメニュー =================
 export function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
-  const { locale, setLocale } = useLocale();
+  const { locale } = useLocale();
   const t = uiTextByLocale[locale];
 
-  // メニューが開いているときは背面のスクロールを無効化
+  // メニューが開いているときは背面のスクロールを無効化。言語を切り替えるとメニューごと作り直されるので、
+  // 閉じずに消えたときも元に戻す
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    if (!isOpen) return;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [isOpen]);
 
   return (
@@ -52,26 +54,13 @@ export function MobileMenu() {
                 </button>
               </div>
 
-              <div className="flex justify-center gap-2 pt-6">
-                <button
-                  onClick={() => setLocale("ja")}
-                  className={`px-3 py-1.5 text-xs font-semibold rounded border ${locale === "ja" ? "bg-neutral-900 text-white border-neutral-900" : "border-neutral-300 text-neutral-600"}`}
-                >
-                  JP
-                </button>
-                <button
-                  onClick={() => setLocale("en")}
-                  className={`px-3 py-1.5 text-xs font-semibold rounded border ${locale === "en" ? "bg-neutral-900 text-white border-neutral-900" : "border-neutral-300 text-neutral-600"}`}
-                >
-                  EN
-                </button>
-              </div>
+              <LocaleSwitch variant="menu" />
 
               <nav className="flex flex-col items-center justify-center flex-1 gap-8">
                 {t.nav.map((link) => (
                   <Link
                     key={link.name}
-                    href={link.href}
+                    href={localeHref(locale, link.href)}
                     onClick={() => setIsOpen(false)}
                     className="group flex flex-col items-center text-xl font-bold text-neutral-600 hover:text-neutral-900 transition-colors"
                   >

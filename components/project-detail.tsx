@@ -9,7 +9,7 @@ import { ProjectVideo } from "@/components/project-video";
 import { Badge } from "@/components/ui/badge";
 import { hasDetail, projectsDataByLocale } from "@/data/projects";
 import { uiTextByLocale } from "@/data/ui-text";
-import { useLocale } from "@/lib/locale";
+import { localeHref, useLocale } from "@/lib/locale";
 
 // プロジェクトの詳細ページの中身（app/projects/[id]/page.tsx から使う）
 export function ProjectDetail({ id }: { id: string }) {
@@ -52,7 +52,7 @@ export function ProjectDetail({ id }: { id: string }) {
       className="space-y-12"
     >
       <Link
-        href={`/#project-${project.id}`}
+        href={localeHref(locale, `/#project-${project.id}`)}
         className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500 hover:text-neutral-900 transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
@@ -153,7 +153,7 @@ export function ProjectDetail({ id }: { id: string }) {
       <nav className="grid grid-cols-2 gap-4 border-t border-neutral-200 pt-6 text-sm">
         {prev && (
           <Link
-            href={`/projects/${prev.id}`}
+            href={localeHref(locale, `/projects/${prev.id}`)}
             className="group flex flex-col gap-1 text-neutral-500 hover:text-neutral-900 transition-colors"
           >
             <span className="inline-flex items-center gap-1 text-xs">
@@ -167,7 +167,7 @@ export function ProjectDetail({ id }: { id: string }) {
         )}
         {next && (
           <Link
-            href={`/projects/${next.id}`}
+            href={localeHref(locale, `/projects/${next.id}`)}
             className="group col-start-2 flex flex-col items-end gap-1 text-right text-neutral-500 hover:text-neutral-900 transition-colors"
           >
             <span className="inline-flex items-center gap-1 text-xs">
